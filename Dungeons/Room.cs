@@ -20,7 +20,7 @@ namespace Dungeons
         {
             var numGameObjects = gameObjects.Count;
 
-            if (numGameObjects >= 2)
+            if (numGameObjects >= capacity)
                 return false;
 
             gameObjects.Add(gameObject);
