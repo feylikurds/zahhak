@@ -8,6 +8,9 @@ namespace Dungeons
 {
     internal class Monster : Creature
     {
-        public Monster(string name = "Monster", string symbol = "M") : base(name, symbol) { }
+        const string NAME = "Monster";
+        const string SYMBOL = "M";
+
+        public Monster(string name = NAME, string symbol = SYMBOL) : base(name, symbol) { }
     }
 }

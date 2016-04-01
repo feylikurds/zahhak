@@ -8,6 +8,9 @@ namespace Dungeons
 {
     internal class Player : Creature
     {
-        public Player(string name = "Player", string symbol = "P") : base(name, symbol) { }
+        const string NAME = "Player";
+        const string SYMBOL = "P";
+
+        public Player(string name = NAME, string symbol = SYMBOL) : base(name, symbol) { }
     }
 }

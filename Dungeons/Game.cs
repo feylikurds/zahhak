@@ -10,16 +10,22 @@ namespace Dungeons
     {
         const int WIDTH = 20;
         const int LENGTH = 20;
+        const int NUM_MONSTERS = 10;
 
         readonly int worldWidth;
         readonly int worldHeight;
-        Player player;
         Room[,] rooms;
-        
-        public Game(int worldWidth = WIDTH, int worldHeight = LENGTH)
+        Player player;
+        Monster[] monsters;
+
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+
+        public Game(int worldWidth = WIDTH, int worldHeight = LENGTH, int numMonsters = NUM_MONSTERS)
         {
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
+            monsters = new Monster[numMonsters];
         }
 
         public void Start()
@@ -27,6 +33,8 @@ namespace Dungeons
             createWorld();
 
             initPlayer();
+
+            initMonsters();
 
             displayWorld();
         }
@@ -50,9 +58,37 @@ namespace Dungeons
             rooms[startX, startY].Enter(player);
         }
 
-        private void moveObject(GameObject gameObject, int x, int y)
+
+        private void initMonsters()
         {
-            rooms[x, y].Enter(gameObject);
+
+            for (int i = 0; i < monsters.Length; i++)
+            {
+                monsters[i] = new Monster();
+
+                moveRandomly(monsters[i]);
+            }
+        }
+
+        private void moveRandomly(GameObject go)
+        {
+            bool exit = false;
+
+            while (!exit)
+            {
+                var x = RandomNumber(0, worldWidth - 1);
+                var y = RandomNumber(0, worldHeight - 1);
+
+                exit = rooms[x, y].Enter(go);
+            }
+        }
+
+        public static int RandomNumber(int min, int max)
+        {
+            lock (syncLock)
+            { 
+                return random.Next(min, max);
+            }
         }
 
         private void displayWorld()
@@ -66,12 +102,6 @@ namespace Dungeons
             }
 
             Console.WriteLine(); 
-        }
-
-
-        private void movePlayer(double startX, double startY)
-        {
-            throw new NotImplementedException();
         }
     }
 }

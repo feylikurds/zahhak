@@ -8,29 +8,32 @@ namespace Dungeons
 {
     internal class Room : GameObject
     {
+        const string NAME = "Room";
+        const string SYMBOL = "R";
+
         readonly int capacity;
         List<GameObject> gameObjects = new List<GameObject>();
 
-        public Room(string name = "Room", string symbol = "R", int capacity = 2) : base(name, symbol)
+        public Room(string name = NAME, string symbol = SYMBOL, int capacity = 2) : base(name, symbol)
         {
             this.capacity = capacity;
         }
 
-        public bool Enter(GameObject gameObject)
+        public bool Enter(GameObject go)
         {
             var numGameObjects = gameObjects.Count;
 
             if (numGameObjects >= capacity)
                 return false;
 
-            gameObjects.Add(gameObject);
+            gameObjects.Add(go);
 
             return true;
         }
 
-        public void Leave(GameObject gameObject)
+        public void Leave(GameObject go)
         {
-            gameObjects.Remove(gameObject);
+            gameObjects.Remove(go);
         }
 
         public override string ToString()
@@ -47,8 +50,8 @@ namespace Dungeons
             }
             else
             {
-                foreach (var gameObject in gameObjects)
-                    cell += gameObject.Symbol;
+                foreach (var go in gameObjects)
+                    cell += go.Symbol;
 
                 for (int i = 0; i < capacity - numGameObjects; i++)
                     cell += " ";
