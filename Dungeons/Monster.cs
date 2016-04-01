@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dungeons
 {
-    internal class Player : Creature
+    internal class Monster : Creature
     {
-        public Player(string name = "Player", string symbol = "P") : base(name, symbol) { }
+        public Monster(string name = "Monster", string symbol = "M") : base(name, symbol) { }
     }
 }
