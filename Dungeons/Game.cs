@@ -25,10 +25,7 @@ namespace Dungeons
         private List<Monster> monsters;
         private List<Health> healths;
         private List<Strength> strengths;
-
-        private static Random random = new Random();
-        private static object syncLock = new object();
-
+        
         public Game(int worldWidth = WIDTH, int worldHeight = LENGTH, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH)
         {
             this.worldWidth = worldWidth;
@@ -118,21 +115,13 @@ namespace Dungeons
 
             while (!exit)
             {
-                x = RandomNumber(0, worldWidth - 1);
-                y = RandomNumber(0, worldHeight - 1);
+                x = Utils.RandomNumber(0, worldWidth - 1);
+                y = Utils.RandomNumber(0, worldHeight - 1);
 
                 exit = rooms[x, y].Enter(go);
             }
 
             go.Move(x, y);
-        }
-
-        public static int RandomNumber(int min, int max)
-        {
-            lock (syncLock)
-            { 
-                return random.Next(min, max);
-            }
         }
 
         private void displayWorld()
@@ -168,7 +157,7 @@ namespace Dungeons
 
         private void movePlayer(ConsoleKeyInfo key)
         {
-            var next = getMove(key);
+            var next = Utils.GetMove(key);
 
             moveCreature(player, player.X + next.Item1, player.Y + next.Item2);
 
@@ -177,83 +166,20 @@ namespace Dungeons
             rooms[player.X, player.Y].Strength(player);
         }
 
-        private Tuple<int, int> getMove(ConsoleKeyInfo key)
-        {
-            var x = 0;
-            var y = 0;
-
-            switch (key.Key)
-            {
-                case ConsoleKey.UpArrow:
-                    y = -1;
-                    break;
-                           
-                case ConsoleKey.DownArrow:
-                    y = 1;
-                    break;
-
-                case ConsoleKey.LeftArrow:
-                    x = -1;
-                    break;
-
-                case ConsoleKey.RightArrow:
-                    x = 1;
-                    break;
-
-                default:
-                    break;
-            }
-
-            Debug.WriteLine($"key: {key.Key} x: {x} y: {y}");
-
-            return Tuple.Create(x, y);
-        }
-
         private void moveMonsters()
         {
             foreach (var monster in monsters)
             {
-                var next = moveRandomly(monster.X, monster.Y);
+                var next = Utils.MoveRandomly(monster.X, monster.Y);
 
                 moveCreature(monster, next.Item1, next.Item2);
             }
-        }
-
-        private Tuple<int, int> moveRandomly(int currentX, int currentY)
-        {
-            var x = currentX;
-            var y = currentY;
-
-            var n = RandomNumber(0, 100);
-
-            if (n > 50)
-            {
-                n = RandomNumber(0, 100);
-
-                if (n > 50)
-                    x += -1;
-                else
-                    x += 1;
-            }
-            else
-            {
-                n = RandomNumber(0, 100);
-
-                if (n > 50)
-                    y += -1;
-                else
-                    y += 1;
-            }
-
-            return Tuple.Create(x, y);
         }
 
         private void moveCreature(GameObject go, int x, int y)
         {
             var currentX = go.X;
             var currentY = go.Y;
-
-            Debug.WriteLine($"go: {go} x: {x} y: {y}");
 
             if (x < 0 || y < 0 || x >= worldWidth || y >= worldHeight)
                 return;
