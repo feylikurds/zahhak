@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dungeons
 {
-    abstract class Creature : GameObject
+    internal abstract class Creature : GameObject
     {
         public int Health { get; set; }
         public int Strength { get; set; } = 10;
@@ -17,7 +17,7 @@ namespace Dungeons
             Strength = strength;
         }
 
-        public virtual void Fight(Creature opponent)
+        public void Fight(Creature opponent)
         {
             opponent.Health -= Strength;
         }

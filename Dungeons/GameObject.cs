@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dungeons
 {
-    abstract class GameObject
+    internal abstract class GameObject
     {
         public string Name { get; set; }
         public string Symbol { get; set; }

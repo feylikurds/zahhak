@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dungeons
 {
-    class Game
+    internal class Game
     {
         const int WIDTH = 20;
         const int LENGTH = 20;
