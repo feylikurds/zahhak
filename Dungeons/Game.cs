@@ -8,24 +8,31 @@ namespace Dungeons
 {
     internal class Game
     {
-        const int WIDTH = 20;
-        const int LENGTH = 20;
-        const int NUM_MONSTERS = 10;
+        private const int WIDTH = 20;
+        private const int LENGTH = 20;
+        private const int NUM_MONSTERS = 10;
+        private const int NUM_HEALTH = 10;
+        private const int NUM_STRENGTH = 10;
 
-        readonly int worldWidth;
-        readonly int worldHeight;
-        Room[,] rooms;
-        Player player;
-        Monster[] monsters;
+        private readonly int worldWidth;
+        private readonly int worldHeight;
+        private readonly int numMonsters;
+        private readonly int numHealth;
+        private readonly int numStrength;
+        private Room[,] rooms;
+        private Player player;
+        private Monster[] monsters;
 
         private static readonly Random random = new Random();
         private static readonly object syncLock = new object();
 
-        public Game(int worldWidth = WIDTH, int worldHeight = LENGTH, int numMonsters = NUM_MONSTERS)
+        public Game(int worldWidth = WIDTH, int worldHeight = LENGTH, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH)
         {
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
-            monsters = new Monster[numMonsters];
+            this.numMonsters = numMonsters;
+            this.numHealth = numHealth;
+            this.numStrength = numStrength;
         }
 
         public void Start()
@@ -33,6 +40,10 @@ namespace Dungeons
             createWorld();
 
             initPlayer();
+
+            initHealth();
+
+            initStrength();
 
             initMonsters();
 
@@ -58,11 +69,23 @@ namespace Dungeons
             rooms[startX, startY].Enter(player);
         }
 
+        private void initHealth()
+        {
+            for (int i = 0; i < numHealth; i++)
+                moveRandomly(new Health());
+        }
+
+        private void initStrength()
+        {
+            for (int i = 0; i < numStrength; i++)
+                moveRandomly(new Strength());
+        }
 
         private void initMonsters()
         {
+            monsters = new Monster[numMonsters];
 
-            for (int i = 0; i < monsters.Length; i++)
+            for (int i = 0; i < numMonsters; i++)
             {
                 monsters[i] = new Monster();
 

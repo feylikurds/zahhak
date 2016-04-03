@@ -8,6 +8,13 @@ namespace Dungeons
 {
     internal abstract class Item : GameObject
     {
-        public Item(string name, string symbol) : base(name, symbol) { }
+        const int AMOUNT = 10;
+
+        public readonly int Amount;
+
+        public Item(string name, string symbol, int amount = AMOUNT) : base(name, symbol)
+        {
+            Amount = amount;
+        }
     }
 }

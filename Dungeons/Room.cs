@@ -8,13 +8,14 @@ namespace Dungeons
 {
     internal class Room : GameObject
     {
-        const string NAME = "Room";
-        const string SYMBOL = "R";
+        protected const string NAME = "Room";
+        protected const string SYMBOL = "R";
+        protected const int CAPACITY = 2;
 
-        readonly int capacity;
-        List<GameObject> gameObjects = new List<GameObject>();
+        private readonly int capacity;
+        private List<GameObject> gameObjects = new List<GameObject>();
 
-        public Room(string name = NAME, string symbol = SYMBOL, int capacity = 2) : base(name, symbol)
+        public Room(string name = NAME, string symbol = SYMBOL, int capacity = CAPACITY) : base(name, symbol)
         {
             this.capacity = capacity;
         }

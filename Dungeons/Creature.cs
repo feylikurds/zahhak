@@ -8,10 +8,13 @@ namespace Dungeons
 {
     internal abstract class Creature : GameObject
     {
-        public int Health { get; set; }
-        public int Strength { get; set; } = 10;
+        protected const int HEALTH = 100;
+        protected const int STRENGTH = 10;
 
-        public Creature(string name, string symbol, int health = 100, int strength = 10) : base(name, symbol)
+        public int Health { get; set; }
+        public int Strength { get; set; }
+
+        public Creature(string name, string symbol, int health = HEALTH, int strength = STRENGTH) : base(name, symbol)
         {
             Health = health;
             Strength = strength;
