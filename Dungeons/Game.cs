@@ -46,8 +46,6 @@ namespace Dungeons
             initStrength();
 
             initMonsters();
-
-            displayWorld();
         }
 
         private void createWorld()
@@ -120,6 +118,8 @@ namespace Dungeons
 
         private void displayWorld()
         {
+            Console.Clear();
+
             for (int y = 0; y < rooms.GetLength(1); y++)
             {
                 for (int x = 0; x < rooms.GetLength(0); x++)
@@ -127,8 +127,11 @@ namespace Dungeons
 
                 Console.Write(Environment.NewLine);
             }
+        }
 
-            Console.WriteLine(); 
+        public void Play()
+        {
+            displayWorld();
         }
     }
 }
