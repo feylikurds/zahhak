@@ -72,13 +72,13 @@ namespace Dungeons
         private void initHealth()
         {
             for (int i = 0; i < numHealth; i++)
-                moveRandomly(new Health());
+                placeRandomly(new Health());
         }
 
         private void initStrength()
         {
             for (int i = 0; i < numStrength; i++)
-                moveRandomly(new Strength());
+                placeRandomly(new Strength());
         }
 
         private void initMonsters()
@@ -89,21 +89,25 @@ namespace Dungeons
             {
                 monsters[i] = new Monster();
 
-                moveRandomly(monsters[i]);
+                placeRandomly(monsters[i]);
             }
         }
 
-        private void moveRandomly(GameObject go)
+        private void placeRandomly(GameObject go)
         {
             bool exit = false;
+            var x = 0;
+            var y = 0;
 
             while (!exit)
             {
-                var x = RandomNumber(0, worldWidth - 1);
-                var y = RandomNumber(0, worldHeight - 1);
+                x = RandomNumber(0, worldWidth - 1);
+                y = RandomNumber(0, worldHeight - 1);
 
                 exit = rooms[x, y].Enter(go);
             }
+
+            go.Move(x, y);
         }
 
         public static int RandomNumber(int min, int max)
