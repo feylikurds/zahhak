@@ -12,6 +12,7 @@ namespace Dungeons
     {
         static Game game;
         static ConsoleKeyInfo key;
+        static bool exit;
 
         static void Main(string[] args)
         {
@@ -21,17 +22,24 @@ namespace Dungeons
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Interval = 1000;
+            timer.Interval = 500;
             timer.Enabled = true;
 
-            key = Console.ReadKey();
-            while (key.KeyChar != 'q')
-                key = Console.ReadKey();
+            key = new ConsoleKeyInfo();
+            exit = false;
+
+            do
+            {
+                while (Console.KeyAvailable == false)
+                    Thread.Sleep(100);
+
+                key = Console.ReadKey(true);
+            } while (!exit && key.Key != ConsoleKey.Q);
         }
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            game.Play();
+            exit = game.Play(key);
         }
     }
 }

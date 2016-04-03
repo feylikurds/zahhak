@@ -10,7 +10,8 @@ namespace Dungeons
     {
         protected const string NAME = "Strength";
         protected const string SYMBOL = "S";
+        protected const ConsoleColor COLOR = ConsoleColor.Cyan;
 
-        public Strength(string name = NAME, string symbol = SYMBOL) : base(name, symbol) { }
+        public Strength(string name = NAME, string symbol = SYMBOL, ConsoleColor color = COLOR) : base(name, symbol, color) { }
     }
 }

@@ -14,7 +14,7 @@ namespace Dungeons
         public int Health { get; set; }
         public int Strength { get; set; }
 
-        public Creature(string name, string symbol, int health = HEALTH, int strength = STRENGTH) : base(name, symbol)
+        public Creature(string name, string symbol, ConsoleColor color, int health = HEALTH, int strength = STRENGTH) : base(name, symbol, color)
         {
             Health = health;
             Strength = strength;

@@ -10,7 +10,8 @@ namespace Dungeons
     {
         protected const string NAME = "Health";
         protected const string SYMBOL = "H";
+        protected const ConsoleColor COLOR = ConsoleColor.Green;
 
-        public Health(string name = NAME, string symbol = SYMBOL) : base(name, symbol) { }
+        public Health(string name = NAME, string symbol = SYMBOL, ConsoleColor color = COLOR) : base(name, symbol, color) { }
     }
 }

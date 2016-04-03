@@ -37,7 +37,7 @@ namespace Dungeons
             gameObjects.Remove(go);
         }
 
-        public override string ToString()
+        public void Draw()
         {
             var numGameObjects = gameObjects.Count;
             var cell = "";
@@ -48,17 +48,66 @@ namespace Dungeons
 
                 for (int i = 0; i < capacity - 1; i++)
                     cell += " ";
+
+                Console.Write(cell);
             }
             else
             {
                 foreach (var go in gameObjects)
-                    cell += go.Symbol;
+                {
+                    var symbol = go.Symbol;
+                    var color = go.Color;
+
+                    Console.ForegroundColor = color;
+                    Console.Write(symbol);
+                    Console.ResetColor();
+                }
 
                 for (int i = 0; i < capacity - numGameObjects; i++)
                     cell += " ";
-            }
 
-            return cell;
+                Console.Write(cell);
+            }
+        }
+
+        public void Health(Creature player)
+        {
+            var healths = gameObjects.Where(go => go is Health).Cast<Health>().ToList();
+
+            foreach (var health in healths)
+            {
+                player.Health += health.Amount;
+                health.Delete(" ");
+            }
+        }
+
+        public void Strength(Creature player)
+        {
+            var strengths = gameObjects.Where(go => go is Strength).Cast<Strength>().ToList();
+
+            foreach (var strength in strengths)
+            {
+                player.Strength += strength.Amount;
+                strength.Delete(" ");
+            }
+        }
+
+        public void Battle()
+        {
+            var fighters = gameObjects.Where(go => go is Creature).Cast<Creature>().ToList();
+
+            foreach (var fighter in fighters)
+            {
+                var opponents = fighters.Where(f => f != fighter).ToList();
+
+                foreach (var o in opponents)
+                {
+                    fighter.Fight(o);
+
+                    if (o.Health < 0)
+                        o.Delete(" ");
+                }
+            }
         }
     }
 }

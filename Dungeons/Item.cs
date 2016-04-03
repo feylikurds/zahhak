@@ -12,7 +12,7 @@ namespace Dungeons
 
         public readonly int Amount;
 
-        public Item(string name, string symbol, int amount = AMOUNT) : base(name, symbol)
+        public Item(string name, string symbol, ConsoleColor color, int amount = AMOUNT) : base(name, symbol, color)
         {
             Amount = amount;
         }

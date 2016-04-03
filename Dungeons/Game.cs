@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +22,12 @@ namespace Dungeons
         private readonly int numStrength;
         private Room[,] rooms;
         private Player player;
-        private Monster[] monsters;
+        private List<Monster> monsters;
+        private List<Health> healths;
+        private List<Strength> strengths;
 
-        private static readonly Random random = new Random();
-        private static readonly object syncLock = new object();
+        private static Random random = new Random();
+        private static object syncLock = new object();
 
         public Game(int worldWidth = WIDTH, int worldHeight = LENGTH, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH)
         {
@@ -65,29 +68,45 @@ namespace Dungeons
             var startY = (int)Math.Round((double)worldHeight / 2);
 
             rooms[startX, startY].Enter(player);
+            player.Move(startX, startY);
         }
 
         private void initHealth()
         {
+            healths = new List<Health>();
+
             for (int i = 0; i < numHealth; i++)
-                placeRandomly(new Health());
+            {
+                var health = new Health();
+
+                healths.Add(health);
+                placeRandomly(health);
+            }
         }
 
         private void initStrength()
         {
+            strengths = new List<Strength>();
+
             for (int i = 0; i < numStrength; i++)
-                placeRandomly(new Strength());
+            {
+                var strength = new Strength();
+
+                strengths.Add(strength);
+                placeRandomly(strength);
+            }
         }
 
         private void initMonsters()
         {
-            monsters = new Monster[numMonsters];
+            monsters = new List<Monster>();
 
             for (int i = 0; i < numMonsters; i++)
             {
-                monsters[i] = new Monster();
+                var monster = new Monster();
 
-                placeRandomly(monsters[i]);
+                monsters.Add(monster);
+                placeRandomly(monster);
             }
         }
 
@@ -123,15 +142,155 @@ namespace Dungeons
             for (int y = 0; y < rooms.GetLength(1); y++)
             {
                 for (int x = 0; x < rooms.GetLength(0); x++)
-                        Console.Write(rooms[x, y]);
+                    rooms[x, y].Draw();
 
                 Console.Write(Environment.NewLine);
             }
         }
 
-        public void Play()
+        public bool Play(ConsoleKeyInfo key)
         {
             displayWorld();
+
+            movePlayer(key);
+
+            moveMonsters();
+
+            battle();
+
+            clearWorld();
+
+            if (player.Strength < 0)
+                return true;
+
+            return false;
+        }
+
+        private void movePlayer(ConsoleKeyInfo key)
+        {
+            var next = getMove(key);
+
+            moveCreature(player, player.X + next.Item1, player.Y + next.Item2);
+
+            rooms[player.X, player.Y].Health(player);
+
+            rooms[player.X, player.Y].Strength(player);
+        }
+
+        private Tuple<int, int> getMove(ConsoleKeyInfo key)
+        {
+            var x = 0;
+            var y = 0;
+
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    y = -1;
+                    break;
+                           
+                case ConsoleKey.DownArrow:
+                    y = 1;
+                    break;
+
+                case ConsoleKey.LeftArrow:
+                    x = -1;
+                    break;
+
+                case ConsoleKey.RightArrow:
+                    x = 1;
+                    break;
+
+                default:
+                    break;
+            }
+
+            Debug.WriteLine($"key: {key.Key} x: {x} y: {y}");
+
+            return Tuple.Create(x, y);
+        }
+
+        private void moveMonsters()
+        {
+            foreach (var monster in monsters)
+            {
+                var next = moveRandomly(monster.X, monster.Y);
+
+                moveCreature(monster, next.Item1, next.Item2);
+            }
+        }
+
+        private Tuple<int, int> moveRandomly(int currentX, int currentY)
+        {
+            var x = currentX;
+            var y = currentY;
+
+            var n = RandomNumber(0, 100);
+
+            if (n > 50)
+            {
+                n = RandomNumber(0, 100);
+
+                if (n > 50)
+                    x += -1;
+                else
+                    x += 1;
+            }
+            else
+            {
+                n = RandomNumber(0, 100);
+
+                if (n > 50)
+                    y += -1;
+                else
+                    y += 1;
+            }
+
+            return Tuple.Create(x, y);
+        }
+
+        private void moveCreature(GameObject go, int x, int y)
+        {
+            var currentX = go.X;
+            var currentY = go.Y;
+
+            Debug.WriteLine($"go: {go} x: {x} y: {y}");
+
+            if (x < 0 || y < 0 || x >= worldWidth || y >= worldHeight)
+                return;
+
+            var entered = rooms[x, y].Enter(go);
+
+            if (entered)
+            {
+                rooms[currentX, currentY].Leave(go);
+                go.Move(x, y);
+            }
+        }
+
+        private void battle()
+        {
+            foreach (var room in rooms)
+                room.Battle();
+        }
+
+        private void clearWorld()
+        {
+            leaveRooms(monsters);
+            monsters.RemoveAll(c => c.Remove);
+
+            leaveRooms(healths);
+            healths.RemoveAll(c => c.Remove);
+
+            leaveRooms(strengths);
+            strengths.RemoveAll(c => c.Remove);
+        }
+
+        private void leaveRooms(IEnumerable<GameObject> lc)
+        {
+            var lr = lc.Where(c => c.Remove);
+
+            foreach (var c in lr)
+                rooms[c.X, c.Y].Leave(c);
         }
     }
 }
