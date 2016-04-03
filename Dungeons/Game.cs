@@ -10,13 +10,17 @@ namespace Dungeons
     internal class Game
     {
         private const int WIDTH = 20;
-        private const int LENGTH = 20;
+        private const int HEIGHT = 20;
+        private const int CAPACITY = 2;
         private const int NUM_MONSTERS = 10;
         private const int NUM_HEALTH = 10;
         private const int NUM_STRENGTH = 10;
+        private const int MENU_WIDTH = 1;
+        private const int MENU_HEIGHT = 5;
 
         private readonly int worldWidth;
         private readonly int worldHeight;
+        private readonly int capacity;
         private readonly int numMonsters;
         private readonly int numHealth;
         private readonly int numStrength;
@@ -25,11 +29,14 @@ namespace Dungeons
         private List<Monster> monsters;
         private List<Health> healths;
         private List<Strength> strengths;
-        
-        public Game(int worldWidth = WIDTH, int worldHeight = LENGTH, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH)
+
+        private static object syncLock = new object();
+
+        public Game(int worldWidth = WIDTH, int worldHeight = HEIGHT, int capacity = CAPACITY, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH)
         {
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
+            this.capacity = capacity;
             this.numMonsters = numMonsters;
             this.numHealth = numHealth;
             this.numStrength = numStrength;
@@ -50,11 +57,11 @@ namespace Dungeons
 
         private void createWorld()
         {
-            rooms = new Room[worldHeight, worldHeight];
+            rooms = new Room[worldWidth, worldHeight];
 
-            for (int y = 0; y < rooms.GetLength(1); y++)
-                for (int x = 0; x < rooms.GetLength(0); x++)
-                    rooms[x, y] = new Room();
+            for (int y = 0; y < worldWidth; y++)
+                for (int x = 0; x < worldHeight; x++)
+                    rooms[x, y] = new Room(capacity);
         }
 
         private void initPlayer()
@@ -128,26 +135,71 @@ namespace Dungeons
         {
             Console.Clear();
 
-            for (int y = 0; y < rooms.GetLength(1); y++)
+            var screen = new Cell[worldWidth + MENU_WIDTH, worldHeight + MENU_HEIGHT];
+
+            for (var y = 0; y < worldHeight; y++)
+                for (var x = 0; x < worldWidth; x++)
+                {
+                    screen[x, y] = new Cell(capacity);
+                    screen[x, y].Pixels = rooms[x, y].Draw();
+                }
+
+            var col = worldWidth + MENU_WIDTH - 1;
+
+            entry(screen, col, 0, "Health", player.Health, ConsoleColor.Yellow);
+            entry(screen, col, 1, "Strength", player.Strength, ConsoleColor.Yellow);
+
+            for (var y = 0; y < worldHeight; y++)
             {
-                for (int x = 0; x < rooms.GetLength(0); x++)
-                    rooms[x, y].Draw();
+                for (var x = 0; x < worldWidth + MENU_WIDTH; x++)
+                {
+                    var pixels = screen[x, y]?.Pixels;
+
+                    if (pixels == null)
+                        continue;
+
+                    for (var i = 0; i < pixels.Length; i++)
+                    {
+                        Console.ForegroundColor = pixels[i].Color;
+                        Console.Write(pixels[i].Symbol);
+                        Console.ResetColor();
+                    }
+                }
 
                 Console.Write(Environment.NewLine);
             }
         }
 
+        private void entry(Cell[,] screen, int x, int y, string name, int value, ConsoleColor color)
+        {
+            screen[x, y] = new Cell(capacity);
+            screen[x, y].Pixels = status(name, value, color);
+        }
+
+        private Pixel[] status(string name, int value, ConsoleColor color)
+        {
+            var cell = new List<Pixel>(capacity);
+
+            cell.Add(new Pixel { Symbol = " " });
+            cell.Add(new Pixel { Symbol = name + " = " + value, Color = color });
+
+            return cell.ToArray();
+        }
+
         public bool Play(ConsoleKeyInfo key)
         {
-            displayWorld();
+            lock (syncLock)
+            {
+                displayWorld();
 
-            movePlayer(key);
+                movePlayer(key);
 
-            moveMonsters();
+                moveMonsters();
 
-            battle();
+                battle();
 
-            clearWorld();
+                clearWorld();
+            }
 
             if (player.Strength < 0)
                 return true;

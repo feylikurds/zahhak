@@ -8,10 +8,10 @@ namespace Dungeons
 {
     internal abstract class GameObject
     {
-        public string Name { get; set; }
-        public string Symbol { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
+        public string Name;
+        public string Symbol;
+        public int X;
+        public int Y;
         public bool Remove = false;
         public ConsoleColor Color { get; set; }
 

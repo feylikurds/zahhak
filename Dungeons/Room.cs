@@ -15,6 +15,11 @@ namespace Dungeons
         private readonly int capacity;
         private List<GameObject> gameObjects = new List<GameObject>();
 
+        public Room(int capacity = CAPACITY, string name = NAME, string symbol = SYMBOL) : base(name, symbol)
+        {
+            this.capacity = capacity;
+        }
+
         public Room(string name = NAME, string symbol = SYMBOL, int capacity = CAPACITY) : base(name, symbol)
         {
             this.capacity = capacity;
@@ -37,19 +42,17 @@ namespace Dungeons
             gameObjects.Remove(go);
         }
 
-        public void Draw()
+        public Pixel[] Draw()
         {
             var numGameObjects = gameObjects.Count;
-            var cell = "";
+            var cell = new List<Pixel>(capacity);
 
             if (numGameObjects == 0)
             {
-                cell = ".";
+                cell.Add(new Pixel());
 
                 for (int i = 0; i < capacity - 1; i++)
-                    cell += " ";
-
-                Console.Write(cell);
+                    cell.Add(new Pixel{ Symbol = " " });
             }
             else
             {
@@ -58,16 +61,14 @@ namespace Dungeons
                     var symbol = go.Symbol;
                     var color = go.Color;
 
-                    Console.ForegroundColor = color;
-                    Console.Write(symbol);
-                    Console.ResetColor();
+                    cell.Add(new Pixel { Symbol = symbol, Color = color });
                 }
 
                 for (int i = 0; i < capacity - numGameObjects; i++)
-                    cell += " ";
-
-                Console.Write(cell);
+                    cell.Add(new Pixel { Symbol = " " });
             }
+
+            return cell.ToArray();
         }
 
         public void Health(Creature player)

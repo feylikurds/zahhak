@@ -22,7 +22,7 @@ namespace Dungeons
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Interval = 500;
+            timer.Interval = 1000;
             timer.Enabled = true;
 
             key = new ConsoleKeyInfo();
