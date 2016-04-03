@@ -71,7 +71,7 @@ namespace Dungeons
             return cell.ToArray();
         }
 
-        public void Health(Creature player)
+        public bool Health(Creature player)
         {
             var healths = gameObjects.Where(go => go is Health).Cast<Health>().ToList();
 
@@ -80,9 +80,14 @@ namespace Dungeons
                 player.Health += health.Amount;
                 health.Delete(" ");
             }
+
+            if (healths.Count > 0)
+                return true;
+
+            return false;
         }
 
-        public void Strength(Creature player)
+        public bool Strength(Creature player)
         {
             var strengths = gameObjects.Where(go => go is Strength).Cast<Strength>().ToList();
 
@@ -91,9 +96,14 @@ namespace Dungeons
                 player.Strength += strength.Amount;
                 strength.Delete(" ");
             }
+
+            if (strengths.Count > 0)
+                return true;
+
+            return false;
         }
 
-        public void Battle()
+        public void Battle(List<string> messages)
         {
             var fighters = gameObjects.Where(go => go is Creature).Cast<Creature>().ToList();
 
@@ -105,8 +115,16 @@ namespace Dungeons
                 {
                     fighter.Fight(o);
 
+                    var text = fighter.GetType().Name + " attacked " + o.GetType().Name + "!";
+                    messages.Add(text);
+
                     if (o.Health < 0)
+                    {
+                        text = o.GetType().Name + " was killed!";
+                        messages.Add(text);
+
                         o.Delete(" ");
+                    }
                 }
             }
         }
