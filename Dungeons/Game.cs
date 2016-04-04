@@ -183,7 +183,7 @@ namespace Dungeons
             canvas.Draw(rooms, player, cq);
         }
 
-        public bool Play(ConsoleKeyInfo key)
+        public Tuple<bool, bool> Play(ConsoleKeyInfo key)
         {
             lock (syncLock)
             {
@@ -198,10 +198,12 @@ namespace Dungeons
                 clearWorld();
             }
 
-            if (player.Health < 0 || monsters.Count == 0)
-                return false;
+            if (player.Health < 0)
+                return Tuple.Create(false, false);
+            else if (monsters.Count == 0)
+                return Tuple.Create(true, true);
 
-            return true;
+            return Tuple.Create(true, false); 
         }
 
         private void movePlayer(ConsoleKeyInfo key)
