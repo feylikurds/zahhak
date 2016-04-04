@@ -48,8 +48,8 @@ namespace Dungeons
 
             entry(screen, col, worldHeight - 4, "Commands", ConsoleColor.Yellow);
             entry(screen, col, worldHeight - 3, "--------------", ConsoleColor.Yellow);
-            entry(screen, col, worldHeight - 2, "q: Quit", ConsoleColor.Yellow);
-            entry(screen, col, worldHeight - 1, "arrows: Move", ConsoleColor.Yellow);
+            entry(screen, col, worldHeight - 2, "Q: Quit", ConsoleColor.Yellow);
+            entry(screen, col, worldHeight - 1, "Arrows: Move", ConsoleColor.Yellow);
 
             entry(screen, 0, worldHeight + 1, "P: Player", ConsoleColor.Yellow);
             entry(screen, 5, worldHeight + 1, "    ", ConsoleColor.Yellow);
@@ -59,7 +59,7 @@ namespace Dungeons
             entry(screen, 20, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("Dungeons by Aryo Pehlewan aryopehlewan@hotmail.com Copyright 2016 Licensed GPLv3");
+            Console.Write("Dungeons by Aryo Pehlewan aryopehlewan@hotmail.com Copyright 2016 License GPLv3");
             Console.ResetColor();
 
             for (var y = 0; y < worldHeight + menuHeight; y++)
