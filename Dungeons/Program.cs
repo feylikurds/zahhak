@@ -36,7 +36,7 @@ namespace Dungeons
 
         static void Main(string[] args)
         {
-            game = new Game(20, 20, 2, 100, 10, 10);
+            game = new Game(20, 20, 2, 10, 10, 10);
 
             game.Start();
 
@@ -47,15 +47,25 @@ namespace Dungeons
 
             System.Timers.Timer gameTimer = new System.Timers.Timer();
             gameTimer.Elapsed += new ElapsedEventHandler(playOnTimedEvent);
-            gameTimer.Interval = 300;
+            gameTimer.Interval = 100;
             gameTimer.Enabled = true;
 
             while (play && !quit)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
 
+            Console.Clear();
+
+            Console.WriteLine(Environment.NewLine);
+
+            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+
+            Console.WriteLine(Environment.NewLine);
+
             Console.WriteLine("GAME OVER!");
+
+            Console.WriteLine(Environment.NewLine);
         }
 
         private static void keyOnTimedEvent(object source, ElapsedEventArgs e)
