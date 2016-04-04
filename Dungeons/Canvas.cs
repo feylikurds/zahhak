@@ -1,6 +1,6 @@
 ﻿/*
 Dungeons, a C# 6.0 coding example in form of a console game.
-Copyright (C) 2016 Aryo Pehlewan aryopehlewan@hotmail.com
+Copyright (C) 2016 Aryo Pehlewan feylikurds@gmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ namespace Dungeons
             entry(screen, 20, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Dungeons by Aryo Pehlewan aryopehlewan@hotmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
             Console.ResetColor();
 
             for (var y = 0; y < worldHeight + menuHeight; y++)
