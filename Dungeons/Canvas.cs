@@ -34,14 +34,15 @@ namespace Dungeons
         private Cell[,] screen;
         private readonly int capacity;
 
-        public Canvas(int worldHeight, int worldWidth, int menuWidth, int menuHeight, Cell[,] screen, int capacity)
+        public Canvas(int worldHeight, int worldWidth, int menuWidth, int menuHeight, int capacity)
         {
             this.worldHeight = worldHeight;
             this.worldWidth = worldWidth;
             this.menuWidth = menuWidth;
             this.menuHeight = menuHeight;
-            this.screen = screen;
             this.capacity = capacity;
+
+            screen = new Cell[worldWidth + menuWidth, worldHeight + menuHeight];
         }
 
         public void Draw(Room[,] rooms, Player player, ConcurrentQueue<Pixel> cq)
@@ -50,7 +51,7 @@ namespace Dungeons
                 for (var x = 0; x < worldWidth; x++)
                 {
                     screen[x, y] = new Cell(capacity);
-                    screen[x, y].Pixels = rooms[x, y].Draw();
+                    screen[x, y].Pixels = getPixels(rooms, x, y);
                 }
 
             var col = worldWidth + menuWidth - 1;
@@ -77,7 +78,7 @@ namespace Dungeons
             entry(screen, 20, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3" + Environment.NewLine);
             Console.ResetColor();
 
             for (var y = 0; y < worldHeight + menuHeight; y++)
@@ -100,6 +101,36 @@ namespace Dungeons
                 Console.Write(Environment.NewLine);
             }
 
+        }
+
+        private Pixel[] getPixels(Room[,] rooms, int x, int y)
+        {
+            var gos = rooms[x, y].GetGameObjects();
+            var numGos = gos.Count;
+            var cell = new List<Pixel>(capacity);
+
+            if (gos.Count == 0)
+            {
+                cell.Add(new Pixel());
+
+                for (int i = 0; i < capacity - 1; i++)
+                    cell.Add(new Pixel { Symbol = " " });
+            }
+            else
+            {
+                foreach (var go in gos)
+                {
+                    var symbol = go.Symbol;
+                    var color = go.Color;
+
+                    cell.Add(new Pixel { Symbol = symbol, Color = color });
+                }
+
+                for (int i = 0; i < capacity - numGos; i++)
+                    cell.Add(new Pixel { Symbol = " " });
+            }
+
+            return cell.ToArray();
         }
 
         private void entry(Cell[,] screen, int x, int y, string name, int value, ConsoleColor color)

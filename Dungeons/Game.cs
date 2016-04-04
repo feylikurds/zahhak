@@ -49,7 +49,6 @@ namespace Dungeons
         private List<Monster> monsters;
         private List<Health> healths;
         private List<Strength> strengths;
-        private Cell[,] screen;
         private Canvas canvas;
         ConcurrentQueue<Pixel> cq;
 
@@ -99,8 +98,7 @@ namespace Dungeons
                 for (int x = 0; x < worldHeight; x++)
                     rooms[x, y] = new Room(capacity);
 
-            screen = new Cell[worldWidth + MENU_WIDTH, worldHeight + MENU_HEIGHT];
-            canvas = new Canvas(worldHeight, worldWidth, MENU_WIDTH, MENU_HEIGHT, screen, capacity);
+            canvas = new Canvas(worldHeight, worldWidth, MENU_WIDTH, MENU_HEIGHT, capacity);
         }
 
         private void initPlayer()
@@ -212,10 +210,26 @@ namespace Dungeons
 
             moveCreature(player, player.X + next.Item1, player.Y + next.Item2);
 
-            if (rooms[player.X, player.Y].Health(player))
+            var healths = rooms[player.X, player.Y].GetHealths();
+
+            foreach (var health in healths)
+            {
+                player.Health += health.Amount;
+                health.Delete();
+            }
+
+            if (healths.Count<Health>() > 0)
                 announce("Player got health.", ConsoleColor.Green);
 
-            if (rooms[player.X, player.Y].Strength(player))
+            var strengths = rooms[player.X, player.Y].GetStrengths();
+
+            foreach (var strength in strengths)
+            {
+                player.Strength += strength.Amount;
+                strength.Delete();
+            }
+            
+            if (strengths.Count<Strength>() > 0)
                 announce("Player got strength.", ConsoleColor.Cyan);
         }
 
@@ -250,12 +264,36 @@ namespace Dungeons
         {
             foreach (var room in rooms)
             {
-                var messages = new List<string>(MAX_MESSAGES);
+                var fighters = room.GetCreatures();
 
-                room.Battle(messages);
+                foreach (var fighter in fighters)
+                {
+                    var opponents = fighters.Where(f => f != fighter);
 
-                foreach (var message in messages)
-                    announce(message, ConsoleColor.Red);
+                    foreach (var o in opponents)
+                    {
+                        fighter.Fight(o);
+
+                        var fighterName = fighter.GetType().Name;
+                        var opponentName = o.GetType().Name;
+                        var message = fighterName + " attacked " + opponentName + "!";
+                        var color = ConsoleColor.Red;
+
+                        if (fighterName == "Player" || opponentName == "Player")
+                            color = ConsoleColor.Yellow;
+
+                        announce(message, color);
+
+                        if (o.Health < 0)
+                        {
+                            o.Delete();
+                            message = opponentName + " was killed!";
+                            color = ConsoleColor.Magenta;
+
+                            announce(message, color);
+                        }
+                    }
+                }
             }
         }
 

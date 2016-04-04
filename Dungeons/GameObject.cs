@@ -46,10 +46,9 @@ namespace Dungeons
             Y = y;
         }
 
-        public void Delete(string symbol)
+        public void Delete()
         {
             Remove = true;
-            Symbol = symbol;
         }
     }
 }

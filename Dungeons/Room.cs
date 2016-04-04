@@ -60,91 +60,30 @@ namespace Dungeons
             gameObjects.Remove(go);
         }
 
-        public Pixel[] Draw()
+        public List<GameObject> GetGameObjects()
         {
-            var numGameObjects = gameObjects.Count;
-            var cell = new List<Pixel>(capacity);
-
-            if (numGameObjects == 0)
-            {
-                cell.Add(new Pixel());
-
-                for (int i = 0; i < capacity - 1; i++)
-                    cell.Add(new Pixel{ Symbol = " " });
-            }
-            else
-            {
-                foreach (var go in gameObjects)
-                {
-                    var symbol = go.Symbol;
-                    var color = go.Color;
-
-                    cell.Add(new Pixel { Symbol = symbol, Color = color });
-                }
-
-                for (int i = 0; i < capacity - numGameObjects; i++)
-                    cell.Add(new Pixel { Symbol = " " });
-            }
-
-            return cell.ToArray();
+            return gameObjects;
         }
 
-        public bool Health(Creature player)
+        public IEnumerable<Health> GetHealths()
         {
-            var healths = gameObjects.Where(go => go is Health).Cast<Health>().ToList();
+            var healths = gameObjects.Where(go => go is Health).Cast<Health>();
 
-            foreach (var health in healths)
-            {
-                player.Health += health.Amount;
-                health.Delete(" ");
-            }
-
-            if (healths.Count > 0)
-                return true;
-
-            return false;
+            return healths;
         }
 
-        public bool Strength(Creature player)
+        public IEnumerable<Strength> GetStrengths()
         {
-            var strengths = gameObjects.Where(go => go is Strength).Cast<Strength>().ToList();
+            var strengths = gameObjects.Where(go => go is Strength).Cast<Strength>();
 
-            foreach (var strength in strengths)
-            {
-                player.Strength += strength.Amount;
-                strength.Delete(" ");
-            }
-
-            if (strengths.Count > 0)
-                return true;
-
-            return false;
+            return strengths;
         }
 
-        public void Battle(List<string> messages)
+        public IEnumerable<Creature> GetCreatures()
         {
-            var fighters = gameObjects.Where(go => go is Creature).Cast<Creature>().ToList();
+            var creatures = gameObjects.Where(go => go is Creature).Cast<Creature>();
 
-            foreach (var fighter in fighters)
-            {
-                var opponents = fighters.Where(f => f != fighter).ToList();
-
-                foreach (var o in opponents)
-                {
-                    fighter.Fight(o);
-
-                    var text = fighter.GetType().Name + " attacked " + o.GetType().Name + "!";
-                    messages.Add(text);
-
-                    if (o.Health < 0)
-                    {
-                        text = o.GetType().Name + " was killed!";
-                        messages.Add(text);
-
-                        o.Delete(" ");
-                    }
-                }
-            }
+            return creatures;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Dungeons
 
         static void Main(string[] args)
         {
-            game = new Game();
+            game = new Game(20, 20, 2, 10, 10, 10);
 
             game.Start();
 

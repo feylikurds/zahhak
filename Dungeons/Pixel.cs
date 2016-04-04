@@ -27,6 +27,6 @@ namespace Dungeons
     internal class Pixel
     {
         public string Symbol { get; set; } = ".";
-        public ConsoleColor Color { get; set; } = Console.ForegroundColor;
+        public ConsoleColor Color { get; set; } = ConsoleColor.White;
     }
 }
