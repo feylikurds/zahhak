@@ -43,6 +43,16 @@ namespace Dungeons
             this.capacity = capacity;
         }
 
+        public bool HasRoomForTwo()
+        {
+            var n = capacity - gameObjects.Count;
+
+            if (n >= 2)
+                return true;
+
+            return false;
+        }
+
         public bool Enter(GameObject go)
         {
             var numGameObjects = gameObjects.Count;

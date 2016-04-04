@@ -170,6 +170,9 @@ namespace Dungeons
                 x = Utils.RandomNumber(0, worldWidth - 1);
                 y = Utils.RandomNumber(0, worldHeight - 1);
 
+                if (!rooms[x, y].HasRoomForTwo())
+                    continue;
+
                 exit = rooms[x, y].Enter(go);
             }
 
