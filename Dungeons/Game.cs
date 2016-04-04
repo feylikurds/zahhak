@@ -198,7 +198,7 @@ namespace Dungeons
                 clearWorld();
             }
 
-            if (player.Health < 0)
+            if (player.Health < 0 || monsters.Count == 0)
                 return false;
 
             return true;
@@ -237,7 +237,12 @@ namespace Dungeons
         {
             foreach (var monster in monsters)
             {
-                var next = Utils.MoveRandomly(monster.X, monster.Y);
+                Tuple<int, int> next;
+
+                if (Utils.flip())
+                    next = Utils.MoveRandomly(monster.X, monster.Y);
+                else
+                    next = Utils.MoveToPlayer(monster.X, monster.Y, player.X, player.X);
 
                 moveCreature(monster, next.Item1, next.Item2);
             }

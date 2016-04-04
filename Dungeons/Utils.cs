@@ -38,27 +38,44 @@ namespace Dungeons
             }
         }
 
+        public static Tuple<int, int> MoveToPlayer(int monsterX, int monsterY, int playerX, int playerY)
+        {
+            var deltaX = monsterX - playerX;
+            var deltaY = monsterY - playerY;
+            var x = 0;
+            var y = 0;
+
+            if (deltaX < 0)
+                x++;
+            else if (deltaX > 0)
+                x--;
+
+            if (deltaY < 0)
+                y++;
+            else if (deltaY > 0)
+                y--;
+
+            x += monsterX;
+            y += monsterY;
+
+            return Tuple.Create(x, y);
+        }
+
         public static Tuple<int, int> MoveRandomly(int currentX, int currentY)
         {
             var x = currentX;
             var y = currentY;
 
-            var n = RandomNumber(0, 100);
-
-            if (n > 50)
+            if (flip())
             {
-                n = RandomNumber(0, 100);
-
-                if (n > 50)
+                if (flip())
                     x += -1;
                 else
                     x += 1;
             }
             else
             {
-                n = RandomNumber(0, 100);
-
-                if (n > 50)
+                if (flip())
                     y += -1;
                 else
                     y += 1;
@@ -67,6 +84,15 @@ namespace Dungeons
             return Tuple.Create(x, y);
         }
 
+        public static bool flip()
+        {
+            var n = RandomNumber(0, 100);
+
+            if (n > 50)
+                return true;
+
+            return false;
+        }
 
         public static Tuple<int, int> GetMove(ConsoleKeyInfo key)
         {
