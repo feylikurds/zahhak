@@ -198,10 +198,10 @@ namespace Dungeons
                 clearWorld();
             }
 
-            if (player.Strength < 0)
-                return true;
+            if (player.Health < 0)
+                return false;
 
-            return false;
+            return true;
         }
 
         private void movePlayer(ConsoleKeyInfo key)
