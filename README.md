@@ -1,4 +1,4 @@
-# Dungeons, a C# coding sample in form of a console game.
+# Dungeons, a C# 6.0 coding sample in form of a console game.
 
 ## Development
 This was written in C# 6.0 with Visual Studio 2015.
@@ -10,5 +10,5 @@ I will add a better explaination later.
 Check out my programming blog! http://ar.hn/blog
 
 ## License
-Copyright (c) 2016 Aryo Pehlewan aryopehlewan@hotmai.com 
+Copyright (c) 2016 Aryo Pehlewan feylikurds@gmail.com 
 Licensed under the GPL license.
