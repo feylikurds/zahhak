@@ -74,15 +74,16 @@ namespace Zahhak
             entry(screen, 0, worldHeight + 1, "P: Player", ConsoleColor.Yellow);
             entry(screen, 1, worldHeight + 1, " ", ConsoleColor.Yellow);
             entry(screen, 2, worldHeight + 1, "H: Health", ConsoleColor.Green);
-            entry(screen, 3, worldHeight + 1, "  ", ConsoleColor.Yellow);
+            entry(screen, 3, worldHeight + 1, "  ", ConsoleColor.Green);
             entry(screen, 4, worldHeight + 1, "T: Treasure", ConsoleColor.Blue);
 
             entry(screen, 0, worldHeight + 2, "M: Monster", ConsoleColor.Red);
             entry(screen, 1, worldHeight + 2, "", ConsoleColor.Red);
             entry(screen, 2, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
+            entry(screen, 3, worldHeight + 2, "", ConsoleColor.Cyan);
+            entry(screen, 4, worldHeight + 2, "Type 'zahhak help' for more options.", ConsoleColor.White);
 
             Console.SetCursorPosition(0, 0);
-
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
             Console.ResetColor();
