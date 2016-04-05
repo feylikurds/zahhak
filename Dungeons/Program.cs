@@ -111,6 +111,7 @@ namespace Dungeons
 ");
             }
 
+            Console.ResetColor();
             Console.WriteLine(Environment.NewLine);
         }
     }
