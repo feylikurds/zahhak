@@ -1,5 +1,7 @@
 # Zahhak, a C# 6.0 coding sample in form of a console game.
 
+![Screenshot](https://raw.githubusercontent.com/feylikurds/zahhak/master/pics/zahhak.png)
+
 ## Development
 This was written in C# 6.0 with Visual Studio 2015.
 
