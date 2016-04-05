@@ -77,8 +77,10 @@ namespace Dungeons
             entry(screen, 5, worldHeight + 2, "   ", ConsoleColor.Red);
             entry(screen, 20, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
 
+            Console.SetCursorPosition(0, 0);
+
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3" + Environment.NewLine);
+            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
             Console.ResetColor();
 
             for (var y = 0; y < worldHeight + menuHeight; y++)

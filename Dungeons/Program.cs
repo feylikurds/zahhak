@@ -57,35 +57,7 @@ namespace Dungeons
                 Thread.Sleep(100);
             }
 
-            Console.Clear();
-
-            Console.WriteLine(Environment.NewLine);
-
-            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
-
-            Console.WriteLine(Environment.NewLine);
-            if (won)
-                Console.WriteLine(@"
- __    __                                                  __     
-/\ \  /\ \                                                /\ \    
-\ `\`\\/'/ ___   __  __      __  __  __    ___     ___    \ \ \   
- `\ `\ /' / __`\/\ \/\ \    /\ \/\ \/\ \  / __`\ /' _ `\   \ \ \  
-   `\ \ \/\ \L\ \ \ \_\ \   \ \ \_/ \_/ \/\ \L\ \/\ \/\ \   \ \_\ 
-     \ \_\ \____/\ \____/    \ \___x___/'\ \____/\ \_\ \_\   \/\_\
-      \/_/\/___/  \/___/      \/__//__/   \/___/  \/_/\/_/    \/_/
-");
-            else
-                Console.WriteLine(@"
- ____                                     _____                          
-/\  _`\                                  /\  __`\                        
-\ \ \L\_\     __      ___ ___      __    \ \ \/\ \  __  __    __   _ __  
- \ \ \L_L   /'__`\  /' __` __`\  /'__`\   \ \ \ \ \/\ \/\ \ /'__`\/\`'__\
-  \ \ \/, \/\ \L\.\_/\ \/\ \/\ \/\  __/    \ \ \_\ \ \ \_/ /\  __/\ \ \/ 
-   \ \____/\ \__/.\_\ \_\ \_\ \_\ \____\    \ \_____\ \___/\ \____\\ \_\ 
-    \/___/  \/__/\/_/\/_/\/_/\/_/\/____/     \/_____/\/__/  \/____/ \/_/ 
-");
-
-            Console.WriteLine(Environment.NewLine);
+            end();
         }
 
         private static void keyOnTimedEvent(object source, ElapsedEventArgs e)
@@ -101,6 +73,45 @@ namespace Dungeons
             result = game.Play(key);
             play = result.Item1;
             won = result.Item2;
+        }
+
+        private static void end()
+        {
+            Console.Clear();
+
+            Console.WriteLine(Environment.NewLine);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Dungeons by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine(Environment.NewLine);
+
+            if (won)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(@"
+ __    __                                                  __     
+/\ \  /\ \                                                /\ \    
+\ `\`\\/'/ ___   __  __      __  __  __    ___     ___    \ \ \   
+ `\ `\ /' / __`\/\ \/\ \    /\ \/\ \/\ \  / __`\ /' _ `\   \ \ \  
+   `\ \ \/\ \L\ \ \ \_\ \   \ \ \_/ \_/ \/\ \L\ \/\ \/\ \   \ \_\ 
+     \ \_\ \____/\ \____/    \ \___x___/'\ \____/\ \_\ \_\   \/\_\
+      \/_/\/___/  \/___/      \/__//__/   \/___/  \/_/\/_/    \/_/
+");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(@"
+ ____                                     _____                          
+/\  _`\                                  /\  __`\                        
+\ \ \L\_\     __      ___ ___      __    \ \ \/\ \  __  __    __   _ __  
+ \ \ \L_L   /'__`\  /' __` __`\  /'__`\   \ \ \ \ \/\ \/\ \ /'__`\/\`'__\
+  \ \ \/, \/\ \L\.\_/\ \/\ \/\ \/\  __/    \ \ \_\ \ \ \_/ /\  __/\ \ \/ 
+   \ \____/\ \__/.\_\ \_\ \_\ \_\ \____\    \ \_____\ \___/\ \____\\ \_\ 
+    \/___/  \/__/\/_/\/_/\/_/\/_/\/____/     \/_____/\/__/  \/____/ \/_/ 
+");
+            }
+
+            Console.WriteLine(Environment.NewLine);
         }
     }
 }

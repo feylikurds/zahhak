@@ -37,7 +37,7 @@ namespace Dungeons
         private const int MENU_WIDTH = 1;
         private const int MENU_HEIGHT = 3;
         private const int MAX_MESSAGES = 12;
-
+        private const int STATUS_LEN = 30;
         private readonly int worldWidth;
         private readonly int worldHeight;
         private readonly int capacity;
@@ -79,7 +79,7 @@ namespace Dungeons
 
         private void announce(string text, ConsoleColor color = ConsoleColor.White)
         {
-            cq.Enqueue(new Pixel { Symbol = text, Color = color });
+            cq.Enqueue(new Pixel { Symbol = text.PadRight(STATUS_LEN, ' '), Color = color });
             lock (this)
             {
                 Pixel overflow;
@@ -181,8 +181,6 @@ namespace Dungeons
 
         private void displayWorld()
         {
-            Console.Clear();
-
             canvas.Draw(rooms, player, cq);
         }
 
@@ -299,7 +297,6 @@ namespace Dungeons
                             o.Delete();
                             message = opponentName + " was killed!";
                             color = ConsoleColor.Magenta;
-
                             announce(message, color);
                         }
                     }
