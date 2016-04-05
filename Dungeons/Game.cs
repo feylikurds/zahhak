@@ -38,6 +38,7 @@ namespace Dungeons
         private const int MENU_HEIGHT = 3;
         private const int MAX_MESSAGES = 12;
         private const int STATUS_LEN = 30;
+        private const int DIFFICULTY = 50;
         private readonly int worldWidth;
         private readonly int worldHeight;
         private readonly int capacity;
@@ -242,7 +243,7 @@ namespace Dungeons
             {
                 Tuple<int, int> next;
 
-                if (Utils.flip())
+                if (Utils.flip(DIFFICULTY))
                     next = Utils.MoveRandomly(monster);
                 else
                     next = Utils.MoveToPlayer(monster, player);
