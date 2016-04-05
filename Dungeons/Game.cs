@@ -40,6 +40,7 @@ namespace Dungeons
         private const int MAX_MESSAGES = 11;
         private const int STATUS_LEN = 30;
         private const int DIFFICULTY = 30;
+        private const int STRENGTH_LOST = 1;
         private readonly int worldWidth;
         private readonly int worldHeight;
         private readonly int capacity;
@@ -320,10 +321,15 @@ namespace Dungeons
                         var fighterName = fighter.GetType().Name;
                         var opponentName = o.GetType().Name;
                         var message = fighterName + " attacked " + opponentName + "!";
-                        var color = ConsoleColor.Red;
+                        var color = ConsoleColor.DarkRed;
 
-                        if (fighterName == "Player" || opponentName == "Player")
+                        if (fighter == player)
+                        {
+                            fighter.Strength -= STRENGTH_LOST;
                             color = ConsoleColor.Yellow;
+                        } 
+                        else if (o == player)
+                            color = ConsoleColor.Red;
 
                         announce(message, color);
 
