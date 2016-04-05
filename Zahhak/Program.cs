@@ -37,6 +37,9 @@ namespace Zahhak
         static private readonly int numStrength = 10;
         static private readonly int numTreasure = 10;
         static private readonly int capacity = 2;
+        static private readonly int keyTimerInterval = 100;
+        static private readonly int gameTimerInterval = 100;
+        static private readonly int threadSleep = 100;
 
         static private OrderedDictionary options = new OrderedDictionary();
 
@@ -66,17 +69,17 @@ namespace Zahhak
 
             System.Timers.Timer keyTimer = new System.Timers.Timer();
             keyTimer.Elapsed += new ElapsedEventHandler(keyOnTimedEvent);
-            keyTimer.Interval = 100;
+            keyTimer.Interval = (int)options["keyTimerInterval"];
             keyTimer.Enabled = true;
 
             System.Timers.Timer gameTimer = new System.Timers.Timer();
             gameTimer.Elapsed += new ElapsedEventHandler(playOnTimedEvent);
-            gameTimer.Interval = 100;
+            gameTimer.Interval = (int)options["gameTimerInterval"];
             gameTimer.Enabled = true;
 
             while (play && !quit && !won)
             {
-                Thread.Sleep(100);
+                Thread.Sleep((int)options["threadSleep"]);
             }
 
             end();
@@ -92,6 +95,9 @@ namespace Zahhak
             options.Add("numStrength", numStrength);
             options.Add("numTreasure", numTreasure);
             options.Add("capacity", capacity);
+            options.Add("keyTimerInterval", keyTimerInterval);
+            options.Add("gameTimerInterval", gameTimerInterval);
+            options.Add("threadSleep", threadSleep);
 
             if (args.Length == 1 && args[0] == "help")
             {
@@ -118,24 +124,27 @@ namespace Zahhak
 
         static void help()
         {
+            Console.WriteLine();
+
             Console.WriteLine("Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
-            Console.WriteLine(Environment.NewLine);
 
             Console.WriteLine(@"
-zahhak [difficulty] [worldWidth] [worldHeight] [numMonsters] [numHealth] [numStrength] [numTreasure] [capacity]
+zahhak [difficulty] [worldWidth] [worldHeight] [numMonsters] [numHealth] [numStrength] [numTreasure] [capacity] [keyTimer] [gameTimer] [threadSleep]
 
- difficulty = (default 30) The level of difficulty from 1 to 100.
- worldWidth = (default 20) How wide to make the world.
-worldHeight = (default 20) How high to make the world.
-numMonsters = (default 10) How many monsters to make.
-  numHealth = (default 10) How many healths to make.
-numStrength = (default 10) How many strengths to make.
-numTreasure = (default 10) How many treasures to make.
-   capacity = (default 2)  How many objects can a room contain.
+ difficulty = (default 30)  The level of difficulty from 1 to 100.
+ worldWidth = (default 20)  How wide to make the world.
+worldHeight = (default 20)  How high to make the world.
+numMonsters = (default 10)  How many monsters to make.
+  numHealth = (default 10)  How many healths to make.
+numStrength = (default 10)  How many strengths to make.
+numTreasure = (default 10)  How many treasures to make.
+   capacity = (default 2)   How many objects can a room contain.
+   keyTimer = (default 100) The interval in milliseconds to capture a key.
+  gameTimer = (default 100) The interval in milliseconds to play the game.
+threadSleep = (default 100) The interval in milliseconds to check the program's status.
 
-type 'zahak help' to come back to this screen.
+type 'zahhak help' to come back to this screen.
 ");
-            Console.WriteLine(Environment.NewLine);
         }
 
         private static void keyOnTimedEvent(object source, ElapsedEventArgs e)
