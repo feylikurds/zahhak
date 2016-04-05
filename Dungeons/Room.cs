@@ -89,6 +89,13 @@ namespace Dungeons
             return strengths;
         }
 
+        public IEnumerable<Treasure> GetTreasures()
+        {
+            var treasures = gameObjects.Where(go => go is Treasure).Cast<Treasure>();
+
+            return treasures;
+        }
+
         public IEnumerable<Creature> GetCreatures()
         {
             var creatures = gameObjects.Where(go => go is Creature).Cast<Creature>();

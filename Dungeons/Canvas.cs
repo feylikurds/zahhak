@@ -45,7 +45,7 @@ namespace Dungeons
             screen = new Cell[worldWidth + menuWidth, worldHeight + menuHeight];
         }
 
-        public void Draw(Room[,] rooms, Player player, ConcurrentQueue<Pixel> cq)
+        public void Draw(Room[,] rooms, Player player, ConcurrentQueue<Pixel> cq, int numTreasures)
         {
             for (var y = 0; y < worldHeight; y++)
                 for (var x = 0; x < worldWidth; x++)
@@ -58,9 +58,10 @@ namespace Dungeons
 
             entry(screen, col, 0, "Health", player.Health, ConsoleColor.Yellow);
             entry(screen, col, 1, "Strength", player.Strength, ConsoleColor.Yellow);
-            entry(screen, col, 2, "--------------", ConsoleColor.Yellow);
+            entry(screen, col, 2, "Treasure", numTreasures, ConsoleColor.Yellow);
+            entry(screen, col, 3, "--------------", ConsoleColor.Yellow);
 
-            var row = 3;
+            var row = 4;
 
             foreach (var pixel in cq.Reverse())
                 entry(screen, col, row++, pixel.Symbol, pixel.Color);
@@ -71,11 +72,14 @@ namespace Dungeons
             entry(screen, col, worldHeight - 1, "Arrows: Move", ConsoleColor.Yellow);
 
             entry(screen, 0, worldHeight + 1, "P: Player", ConsoleColor.Yellow);
-            entry(screen, 5, worldHeight + 1, "    ", ConsoleColor.Yellow);
-            entry(screen, 20, worldHeight + 1, "H: Health", ConsoleColor.Green);
+            entry(screen, 1, worldHeight + 1, "    ", ConsoleColor.Yellow);
+            entry(screen, 2, worldHeight + 1, "H: Health", ConsoleColor.Green);
+            entry(screen, 3, worldHeight + 1, "    ", ConsoleColor.Yellow);
+            entry(screen, 4, worldHeight + 1, "T: Treasure", ConsoleColor.Blue);
+
             entry(screen, 0, worldHeight + 2, "M: Monster", ConsoleColor.Red);
-            entry(screen, 5, worldHeight + 2, "   ", ConsoleColor.Red);
-            entry(screen, 20, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
+            entry(screen, 1, worldHeight + 2, "   ", ConsoleColor.Red);
+            entry(screen, 2, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
 
             Console.SetCursorPosition(0, 0);
 

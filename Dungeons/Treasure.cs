@@ -1,4 +1,4 @@
-/*
+﻿/*
 Dungeons, a C# 6.0 coding example in form of a console game.
 Copyright (C) 2016 Aryo Pehlewan feylikurds@gmail.com
 
@@ -24,15 +24,14 @@ using System.Threading.Tasks;
 
 namespace Dungeons
 {
-    internal abstract class Item : GameObject
+    internal class Treasure : Item
     {
-        const int POINTS = 10;
+        const int POINTS = 1;
 
-        public readonly int Points;
+        protected const string NAME = "Treasure";
+        protected const string SYMBOL = "T";
+        protected const ConsoleColor COLOR = ConsoleColor.Blue;
 
-        public Item(string name, string symbol, ConsoleColor color, int points = POINTS) : base(name, symbol, color)
-        {
-            Points = points;
-        }
+        public Treasure(string name = NAME, string symbol = SYMBOL, ConsoleColor color = COLOR, int points = POINTS) : base(name, symbol, color, points) { }
     }
 }

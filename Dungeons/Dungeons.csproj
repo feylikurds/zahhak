@@ -46,6 +46,7 @@
     <Compile Include="Canvas.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Pixel.cs" />
+    <Compile Include="Treasure.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Creature.cs" />
     <Compile Include="Game.cs" />

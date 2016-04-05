@@ -34,6 +34,7 @@ namespace Dungeons
         private const int NUM_MONSTERS = 10;
         private const int NUM_HEALTH = 10;
         private const int NUM_STRENGTH = 10;
+        private const int NUM_TREASURE = 10;
         private const int MENU_WIDTH = 1;
         private const int MENU_HEIGHT = 3;
         private const int MAX_MESSAGES = 12;
@@ -45,17 +46,19 @@ namespace Dungeons
         private readonly int numMonsters;
         private readonly int numHealth;
         private readonly int numStrength;
+        private readonly int numTreasure;
         private Room[,] rooms;
         private Player player;
         private List<Monster> monsters;
         private List<Health> healths;
         private List<Strength> strengths;
+        private List<Treasure> treasures;
         private Canvas canvas;
         ConcurrentQueue<Pixel> cq;
 
         private static object syncLock = new object();
 
-        public Game(int worldWidth = WIDTH, int worldHeight = HEIGHT, int capacity = CAPACITY, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH)
+        public Game(int worldWidth = WIDTH, int worldHeight = HEIGHT, int capacity = CAPACITY, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH, int numTreasure = NUM_TREASURE)
         {
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
@@ -63,6 +66,7 @@ namespace Dungeons
             this.numMonsters = numMonsters;
             this.numHealth = numHealth;
             this.numStrength = numStrength;
+            this.numTreasure = numTreasure;
         }
 
         public void Start()
@@ -74,6 +78,8 @@ namespace Dungeons
             initHealth();
 
             initStrength();
+
+            initTreasure();
 
             initMonsters();
         }
@@ -145,6 +151,21 @@ namespace Dungeons
             }
         }
 
+        private void initTreasure()
+        {
+            announce("Initializing treasure.");
+
+            treasures = new List<Treasure>();
+
+            for (int i = 0; i < numTreasure; i++)
+            {
+                var treasure = new Treasure();
+
+                treasures.Add(treasure);
+                placeRandomly(treasure);
+            }
+        }
+
         private void initMonsters()
         {
             announce("Initializing monsters.");
@@ -182,7 +203,7 @@ namespace Dungeons
 
         private void displayWorld()
         {
-            canvas.Draw(rooms, player, cq);
+            canvas.Draw(rooms, player, cq, NUM_TREASURE - treasures.Count);
         }
 
         public Tuple<bool, bool> Play(ConsoleKeyInfo key)
@@ -202,7 +223,7 @@ namespace Dungeons
 
             if (player.Health < 0)
                 return Tuple.Create(false, false);
-            else if (monsters.Count == 0)
+            else if (treasures.Count == 0)
                 return Tuple.Create(true, true);
 
             return Tuple.Create(true, false); 
@@ -218,7 +239,7 @@ namespace Dungeons
 
             foreach (var health in healths)
             {
-                player.Health += health.Amount;
+                player.Health += health.Points;
                 health.Delete();
             }
 
@@ -229,12 +250,22 @@ namespace Dungeons
 
             foreach (var strength in strengths)
             {
-                player.Strength += strength.Amount;
+                player.Strength += strength.Points;
                 strength.Delete();
             }
-            
+
             if (strengths.Count<Strength>() > 0)
                 announce("Player got strength.", ConsoleColor.Cyan);
+
+            var treasures = rooms[player.X, player.Y].GetTreasures();
+
+            foreach (var treasure in treasures)
+            {
+                treasure.Delete();
+            }
+
+            if (treasures.Count<Treasure>() > 0)
+                announce("Player got treasure.", ConsoleColor.Blue);
         }
 
         private void moveMonsters()
@@ -315,6 +346,9 @@ namespace Dungeons
 
             leaveRooms(strengths);
             strengths.RemoveAll(c => c.Remove);
+
+            leaveRooms(treasures);
+            treasures.RemoveAll(c => c.Remove);
         }
 
         private void leaveRooms(IEnumerable<GameObject> lc)
