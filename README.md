@@ -2,6 +2,13 @@
 
 ![Screenshot](pics/zahhak.png)
 
+## Download
+[Click here to download](downloads/Zahhak.exe)
+
+It runs in Windows, OS X, and Linux
+
+OBS! One must have the .NET Framework or Mono installed.
+
 ## Development
 This was written in C# 6.0 with Visual Studio 2015.
 
