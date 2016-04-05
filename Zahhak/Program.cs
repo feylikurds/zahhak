@@ -29,17 +29,9 @@ namespace Zahhak
 {
     class Program
     {
-        static private readonly int difficulty = 30;
-        static private readonly int worldWidth = 20;
-        static private readonly int worldHeight = 20;
-        static private readonly int numMonsters = 10;
-        static private readonly int numHealth = 10;
-        static private readonly int numStrength = 10;
-        static private readonly int numTreasure = 10;
-        static private readonly int capacity = 2;
-        static private readonly int keyTimerInterval = 100;
-        static private readonly int gameTimerInterval = 100;
-        static private readonly int threadSleep = 100;
+        static private int keyTimerInterval = 100;
+        static private int gameTimerInterval = 100;
+        static private int threadSleep = 100;
 
         static private OrderedDictionary options = new OrderedDictionary();
 
@@ -59,12 +51,12 @@ namespace Zahhak
 
                 return;
             }
-
+            
             Console.Clear();
             Console.ResetColor();
 
             game = new Game((int)options["difficulty"], (int)options["worldWidth"], (int)options["worldHeight"], (int)options["numMonsters"], (int)options["numHealth"], (int)options["numStrength"], (int)options["numTreasure"], (int)options["capacity"]);
-
+            
             game.Start();
 
             System.Timers.Timer keyTimer = new System.Timers.Timer();
@@ -78,31 +70,31 @@ namespace Zahhak
             gameTimer.Enabled = true;
 
             while (play && !quit && !won)
-            {
                 Thread.Sleep((int)options["threadSleep"]);
-            }
+
+            keyTimer.Elapsed -= keyOnTimedEvent;
+            gameTimer.Elapsed -= playOnTimedEvent;
 
             end();
         }
 
         private static bool cmd(string[] args)
         {
-            options.Add("difficulty", difficulty);
-            options.Add("worldWidth", worldWidth);
-            options.Add("worldHeight", worldHeight);
-            options.Add("numMonsters", numMonsters);
-            options.Add("numHealth", numHealth);
-            options.Add("numStrength", numStrength);
-            options.Add("numTreasure", numTreasure);
-            options.Add("capacity", capacity);
+
+            options.Add("difficulty", Game.DIFFICULTY);
+            options.Add("worldWidth", Game.WIDTH);
+            options.Add("worldHeight", Game.HEIGHT);
+            options.Add("numMonsters", Game.NUM_MONSTERS);
+            options.Add("numHealth", Game.NUM_HEALTH);
+            options.Add("numStrength", Game.NUM_STRENGTH);
+            options.Add("numTreasure", Game.NUM_TREASURE);
+            options.Add("capacity", Game.CAPACITY);
             options.Add("keyTimerInterval", keyTimerInterval);
             options.Add("gameTimerInterval", gameTimerInterval);
             options.Add("threadSleep", threadSleep);
 
             if (args.Length == 1 && args[0] == "help")
-            {
                 return false;
-            }
 
             string[] keys = new string[options.Count];
             options.Keys.CopyTo(keys, 0);
@@ -124,9 +116,7 @@ namespace Zahhak
 
         static void help()
         {
-            Console.WriteLine();
-
-            Console.WriteLine("Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine(Environment.NewLine + "Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
 
             Console.WriteLine(@"
 zahhak [difficulty] [worldWidth] [worldHeight] [numMonsters] [numHealth] [numStrength] [numTreasure] [capacity] [keyTimer] [gameTimer] [threadSleep]
@@ -169,8 +159,8 @@ type 'zahhak help' to come back to this screen.
 
             Console.WriteLine(Environment.NewLine);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
-            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine(Environment.NewLine + "Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine();
 
             if (won)
             {
@@ -200,7 +190,7 @@ type 'zahhak help' to come back to this screen.
             }
 
             Console.ResetColor();
-            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine();
         }
     }
 }

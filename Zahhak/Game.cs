@@ -28,19 +28,19 @@ namespace Zahhak
 {
     internal class Game
     {
-        private const int DIFFICULTY = 30;
-        private const int WIDTH = 20;
-        private const int HEIGHT = 20;
-        private const int NUM_MONSTERS = 10;
-        private const int NUM_HEALTH = 10;
-        private const int NUM_STRENGTH = 10;
-        private const int NUM_TREASURE = 10;
-        private const int CAPACITY = 2;
-        private const int MENU_WIDTH = 1;
-        private const int MENU_HEIGHT = 3;
-        private const int MAX_MESSAGES = 11;
-        private const int STATUS_LEN = 30;
-        private const int STRENGTH_LOST = 1;
+        public const int DIFFICULTY = 30;
+        public const int WIDTH = 20;
+        public const int HEIGHT = 20;
+        public const int NUM_MONSTERS = 10;
+        public const int NUM_HEALTH = 10;
+        public const int NUM_STRENGTH = 10;
+        public const int NUM_TREASURE = 10;
+        public const int CAPACITY = 2;
+        public const int MENU_WIDTH = 1;
+        public const int MENU_HEIGHT = 3;
+        public const int MAX_MESSAGES = 11;
+        public const int STATUS_LEN = 30;
+        public const int STRENGTH_LOST = 1;
         private readonly int difficulty;
         private readonly int worldWidth;
         private readonly int worldHeight;
