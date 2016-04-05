@@ -34,10 +34,10 @@ namespace Zahhak
         private Cell[,] screen;
         private readonly int capacity;
 
-        public Canvas(int worldHeight, int worldWidth, int menuWidth, int menuHeight, int capacity)
+        public Canvas(int worldWidth, int worldHeight, int menuWidth, int menuHeight, int capacity)
         {
-            this.worldHeight = worldHeight;
             this.worldWidth = worldWidth;
+            this.worldHeight = worldHeight;
             this.menuWidth = menuWidth;
             this.menuHeight = menuHeight;
             this.capacity = capacity;

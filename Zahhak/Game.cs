@@ -104,11 +104,11 @@ namespace Zahhak
 
             rooms = new Room[worldWidth, worldHeight];
 
-            for (int y = 0; y < worldWidth; y++)
-                for (int x = 0; x < worldHeight; x++)
+            for (int y = 0; y < worldHeight; y++)
+                for (int x = 0; x < worldWidth; x++)
                     rooms[x, y] = new Room(capacity);
 
-            canvas = new Canvas(worldHeight, worldWidth, MENU_WIDTH, MENU_HEIGHT, capacity);
+            canvas = new Canvas(worldWidth, worldHeight, MENU_WIDTH, MENU_HEIGHT, capacity);
         }
 
         private void initPlayer()
