@@ -72,13 +72,13 @@ namespace Dungeons
             entry(screen, col, worldHeight - 1, "Arrows: Move", ConsoleColor.Yellow);
 
             entry(screen, 0, worldHeight + 1, "P: Player", ConsoleColor.Yellow);
-            entry(screen, 1, worldHeight + 1, "    ", ConsoleColor.Yellow);
+            entry(screen, 1, worldHeight + 1, " ", ConsoleColor.Yellow);
             entry(screen, 2, worldHeight + 1, "H: Health", ConsoleColor.Green);
-            entry(screen, 3, worldHeight + 1, "    ", ConsoleColor.Yellow);
+            entry(screen, 3, worldHeight + 1, "  ", ConsoleColor.Yellow);
             entry(screen, 4, worldHeight + 1, "T: Treasure", ConsoleColor.Blue);
 
             entry(screen, 0, worldHeight + 2, "M: Monster", ConsoleColor.Red);
-            entry(screen, 1, worldHeight + 2, "   ", ConsoleColor.Red);
+            entry(screen, 1, worldHeight + 2, "", ConsoleColor.Red);
             entry(screen, 2, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
 
             Console.SetCursorPosition(0, 0);

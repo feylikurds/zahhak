@@ -37,7 +37,7 @@ namespace Dungeons
         private const int NUM_TREASURE = 10;
         private const int MENU_WIDTH = 1;
         private const int MENU_HEIGHT = 3;
-        private const int MAX_MESSAGES = 12;
+        private const int MAX_MESSAGES = 11;
         private const int STATUS_LEN = 30;
         private const int DIFFICULTY = 50;
         private readonly int worldWidth;
