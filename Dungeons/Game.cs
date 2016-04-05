@@ -39,7 +39,7 @@ namespace Dungeons
         private const int MENU_HEIGHT = 3;
         private const int MAX_MESSAGES = 11;
         private const int STATUS_LEN = 30;
-        private const int DIFFICULTY = 50;
+        private const int DIFFICULTY = 30;
         private readonly int worldWidth;
         private readonly int worldHeight;
         private readonly int capacity;
@@ -233,7 +233,8 @@ namespace Dungeons
         {
             var next = Utils.GetMove(key);
 
-            moveCreature(player, player.X + next.Item1, player.Y + next.Item2);
+            if (!moveCreature(player, player.X + next.Item1, player.Y + next.Item2))
+                return;
 
             var healths = rooms[player.X, player.Y].GetHealths();
 
@@ -283,13 +284,13 @@ namespace Dungeons
             }
         }
 
-        private void moveCreature(GameObject go, int x, int y)
+        private bool moveCreature(GameObject go, int x, int y)
         {
             var currentX = go.X;
             var currentY = go.Y;
 
             if (x < 0 || y < 0 || x >= worldWidth || y >= worldHeight)
-                return;
+                return false;
 
             var entered = rooms[x, y].Enter(go);
 
@@ -298,6 +299,8 @@ namespace Dungeons
                 rooms[currentX, currentY].Leave(go);
                 go.Move(x, y);
             }
+
+            return entered;
         }
 
         private void battle()
