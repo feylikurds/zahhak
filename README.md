@@ -3,7 +3,7 @@
 ![Screenshot](pics/zahhak.png)
 
 ## Download
-[Click here to download](downloads/Zahhak.exe)
+[Click here to download](downloads/Zahhak.exe?raw=true)
 
 It runs in Windows, OS X, and Linux
 
