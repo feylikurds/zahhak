@@ -1,5 +1,5 @@
 /*
-Dungeons, a C# 6.0 coding example in form of a console game.
+Zahhak, a C# 6.0 coding example in form of a console game.
 Copyright (C) 2016 Aryo Pehlewan feylikurds@gmail.com
 
 This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dungeons
+namespace Zahhak
 {
     internal class Health : Item
     {

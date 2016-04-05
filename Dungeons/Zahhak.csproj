@@ -7,8 +7,8 @@
     <ProjectGuid>{0E115F41-BF01-4386-BF68-F46B05C37978}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dungeons</RootNamespace>
-    <AssemblyName>Dungeons</AssemblyName>
+    <RootNamespace>Zahhak</RootNamespace>
+    <AssemblyName>Zahhak</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

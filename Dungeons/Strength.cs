@@ -1,5 +1,5 @@
 /*
-Dungeons, a C# 6.0 coding example in form of a console game.
+Zahhak, a C# 6.0 coding example in form of a console game.
 Copyright (C) 2016 Aryo Pehlewan feylikurds@gmail.com
 
 This program is free software: you can redistribute it and/or modify
@@ -22,14 +22,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dungeons
+namespace Zahhak
 {
     internal class Strength : Item
     {
+        const int POINTS = 1;
+
         protected const string NAME = "Strength";
         protected const string SYMBOL = "S";
         protected const ConsoleColor COLOR = ConsoleColor.Cyan;
 
-        public Strength(string name = NAME, string symbol = SYMBOL, ConsoleColor color = COLOR) : base(name, symbol, color) { }
+        public Strength(string name = NAME, string symbol = SYMBOL, ConsoleColor color = COLOR, int points = POINTS) : base(name, symbol, color, points) { }
     }
 }
