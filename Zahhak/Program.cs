@@ -23,25 +23,40 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Timers;
+using System.Collections.Specialized;
 
 namespace Zahhak
 {
     class Program
     {
-        static Game game;
-        static Tuple<bool, bool> result;
-        static ConsoleKeyInfo key;
+        static private readonly int difficulty = 30;
+        static private readonly int worldWidth = 20;
+        static private readonly int worldHeight = 20;
+        static private readonly int numMonsters = 10;
+        static private readonly int numHealth = 10;
+        static private readonly int numStrength = 10;
+        static private readonly int numTreasure = 10;
+        static private readonly int capacity = 2;
 
-        static bool play = true;
-        static bool quit = false;
-        static bool won = false;
+        static private OrderedDictionary options = new OrderedDictionary();
+
+        static private Game game;
+        static private Tuple<bool, bool> result;
+        static private ConsoleKeyInfo key;
+
+        static private bool play = true;
+        static private bool quit = false;
+        static private bool won = false;
 
         static void Main(string[] args)
         {
             Console.Clear();
             Console.ResetColor();
 
-            game = new Game(20, 20, 2, 10, 10, 10);
+            if (!cmd(args))
+                help();
+
+            game = new Game((int)options["difficulty"], (int)options["worldWidth"], (int)options["worldHeight"], (int)options["numMonsters"], (int)options["numHealth"], (int)options["numStrength"], (int)options["numTreasure"], (int)options["capacity"]);
 
             game.Start();
 
@@ -61,6 +76,62 @@ namespace Zahhak
             }
 
             end();
+        }
+
+        private static bool cmd(string[] args)
+        {
+            options.Add("difficulty", difficulty);
+            options.Add("worldWidth", worldWidth);
+            options.Add("worldHeight", worldHeight);
+            options.Add("numMonsters", numMonsters);
+            options.Add("numHealth", numHealth);
+            options.Add("numStrength", numStrength);
+            options.Add("numTreasure", numTreasure);
+            options.Add("capacity", capacity);
+
+            if (args.Length == 1 && args[0] == "help")
+            {
+                return false;
+            }
+
+            string[] keys = new string[options.Count];
+            options.Keys.CopyTo(keys, 0);
+
+            for (int i = 0; i < args.Length && i < options.Count; i++)
+            {
+                string arg = args[i];
+                int val = 0;
+                bool valid = int.TryParse(arg, out val);
+
+                if (valid)
+                    options[keys[i]] = val;
+                else
+                    return false;
+            }
+
+            return true;
+        }
+
+        static void help()
+        {
+            Console.WriteLine("Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine(Environment.NewLine);
+
+            Console.WriteLine(@"
+zahhak [difficulty] [worldWidth] [worldHeight] [numMonsters] [numHealth] [numStrength] [numTreasure] [capacity]
+
+ difficulty = (default 30) The level of difficulty from 1 to 100.
+ worldWidth = (default 20) How wide to make the world.
+worldHeight = (default 20) How high to make the world.
+numMonsters = (default 10) How many monsters to make.
+  numHealth = (default 10) How many healths to make.
+numStrength = (default 10) How many strengths to make.
+numTreasure = (default 10) How many treasures to make.
+   capacity = (default 2)  How many objects can a room contain.
+
+type 'zahak help' to come back to this screen.
+");
+            Console.WriteLine(Environment.NewLine);
         }
 
         private static void keyOnTimedEvent(object source, ElapsedEventArgs e)

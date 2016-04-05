@@ -28,26 +28,27 @@ namespace Zahhak
 {
     internal class Game
     {
+        private const int DIFFICULTY = 30;
         private const int WIDTH = 20;
         private const int HEIGHT = 20;
-        private const int CAPACITY = 2;
         private const int NUM_MONSTERS = 10;
         private const int NUM_HEALTH = 10;
         private const int NUM_STRENGTH = 10;
         private const int NUM_TREASURE = 10;
+        private const int CAPACITY = 2;
         private const int MENU_WIDTH = 1;
         private const int MENU_HEIGHT = 3;
         private const int MAX_MESSAGES = 11;
         private const int STATUS_LEN = 30;
-        private const int DIFFICULTY = 30;
         private const int STRENGTH_LOST = 1;
+        private readonly int difficulty;
         private readonly int worldWidth;
         private readonly int worldHeight;
-        private readonly int capacity;
         private readonly int numMonsters;
         private readonly int numHealth;
         private readonly int numStrength;
         private readonly int numTreasure;
+        private readonly int capacity;
         private Room[,] rooms;
         private Player player;
         private List<Monster> monsters;
@@ -59,8 +60,9 @@ namespace Zahhak
 
         private static object syncLock = new object();
 
-        public Game(int worldWidth = WIDTH, int worldHeight = HEIGHT, int capacity = CAPACITY, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH, int numTreasure = NUM_TREASURE)
+        public Game(int difficulty = DIFFICULTY, int worldWidth = WIDTH, int worldHeight = HEIGHT, int numMonsters = NUM_MONSTERS, int numHealth = NUM_HEALTH, int numStrength = NUM_STRENGTH, int numTreasure = NUM_TREASURE, int capacity = CAPACITY)
         {
+            this.difficulty = difficulty;
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
             this.capacity = capacity;
@@ -276,7 +278,7 @@ namespace Zahhak
             {
                 Tuple<int, int> next;
 
-                if (Utils.flip(DIFFICULTY))
+                if (Utils.flip(difficulty))
                     next = Utils.MoveRandomly(monster);
                 else
                     next = Utils.MoveToPlayer(monster, player);
