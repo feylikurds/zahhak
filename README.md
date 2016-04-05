@@ -1,4 +1,4 @@
-# Dungeons, a C# 6.0 coding sample in form of a console game.
+# Zahhak, a C# 6.0 coding sample in form of a console game.
 
 ## Development
 This was written in C# 6.0 with Visual Studio 2015.
