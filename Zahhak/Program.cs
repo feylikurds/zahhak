@@ -50,15 +50,15 @@ namespace Zahhak
 
         static void Main(string[] args)
         {
-            Console.Clear();
-            Console.ResetColor();
-
             if (!cmd(args))
             {
                 help();
 
                 return;
             }
+
+            Console.Clear();
+            Console.ResetColor();
 
             game = new Game((int)options["difficulty"], (int)options["worldWidth"], (int)options["worldHeight"], (int)options["numMonsters"], (int)options["numHealth"], (int)options["numStrength"], (int)options["numTreasure"], (int)options["capacity"]);
 
