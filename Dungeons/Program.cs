@@ -78,6 +78,7 @@ namespace Dungeons
         private static void end()
         {
             Console.Clear();
+            Console.ResetColor();
 
             Console.WriteLine(Environment.NewLine);
             Console.ForegroundColor = ConsoleColor.White;
