@@ -243,9 +243,9 @@ namespace Dungeons
                 Tuple<int, int> next;
 
                 if (Utils.flip())
-                    next = Utils.MoveRandomly(monster.X, monster.Y);
+                    next = Utils.MoveRandomly(monster);
                 else
-                    next = Utils.MoveToPlayer(monster.X, monster.Y, player.X, player.X);
+                    next = Utils.MoveToPlayer(monster, player);
 
                 moveCreature(monster, next.Item1, next.Item2);
             }

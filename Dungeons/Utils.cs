@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,33 +39,33 @@ namespace Dungeons
             }
         }
 
-        public static Tuple<int, int> MoveToPlayer(int monsterX, int monsterY, int playerX, int playerY)
+        public static Tuple<int, int> MoveToPlayer(Monster m, Player p)
         {
-            var deltaX = monsterX - playerX;
-            var deltaY = monsterY - playerY;
+            var deltaX = m.X - p.X;
+            var deltaY = m.Y - p.Y;
             var x = 0;
             var y = 0;
 
             if (deltaX < 0)
-                x++;
+                x = 1;
             else if (deltaX > 0)
-                x--;
+                x = -1;
 
             if (deltaY < 0)
-                y++;
+                y = 1;
             else if (deltaY > 0)
-                y--;
+                y = -1;
 
-            x += monsterX;
-            y += monsterY;
+            x += m.X;
+            y += m.Y;
 
             return Tuple.Create(x, y);
         }
 
-        public static Tuple<int, int> MoveRandomly(int currentX, int currentY)
+        public static Tuple<int, int> MoveRandomly(Monster m)
         {
-            var x = currentX;
-            var y = currentY;
+            var x = m.X;
+            var y = m.Y;
 
             if (flip())
             {
