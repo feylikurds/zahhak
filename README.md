@@ -5,7 +5,7 @@
 ## Download
 [Click here to download the game.](downloads/Zahhak.exe?raw=true)
 
-It runs in Windows, OS X, and Linux
+It runs on Windows, OS X, and Linux
 
 OBS! One must have the .NET Framework or Mono installed.
 
