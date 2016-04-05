@@ -67,16 +67,16 @@ namespace Dungeons
             var x = m.X;
             var y = m.Y;
 
-            if (flip(50))
+            if (flip())
             {
-                if (flip(50))
+                if (flip())
                     x += -1;
                 else
                     x += 1;
             }
             else
             {
-                if (flip(50))
+                if (flip())
                     y += -1;
                 else
                     y += 1;
@@ -85,7 +85,7 @@ namespace Dungeons
             return Tuple.Create(x, y);
         }
 
-        public static bool flip(int bias)
+        public static bool flip(int bias = 50)
         {
             var n = RandomNumber(1, 100);
 
