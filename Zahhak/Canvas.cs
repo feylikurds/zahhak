@@ -49,22 +49,22 @@ namespace Zahhak
         {
             copy(rooms);
 
-            var col = worldWidth + menuWidth - 1;
+            var column = worldWidth + menuWidth - 1;
 
-            entry(col, 0, "Health", player.Health, ConsoleColor.Yellow);
-            entry(col, 1, "Strength", player.Strength, ConsoleColor.Yellow);
-            entry(col, 2, "Treasure", numTreasures, ConsoleColor.Yellow);
-            entry(col, 3, "--------------", ConsoleColor.Yellow);
+            entry(column, 0, "Health", player.Health, ConsoleColor.Yellow);
+            entry(column, 1, "Strength", player.Strength, ConsoleColor.Yellow);
+            entry(column, 2, "Treasure", numTreasures, ConsoleColor.Yellow);
+            entry(column, 3, "--------------", ConsoleColor.Yellow);
 
             var row = 4;
 
             foreach (var status in statuses.Reverse())
-                entry(col, row++, status.Symbol, status.Color);
+                entry(column, row++, status.Symbol, status.Color);
 
-            entry(col, worldHeight - 4, "Commands", ConsoleColor.Yellow);
-            entry(col, worldHeight - 3, "--------------", ConsoleColor.Yellow);
-            entry(col, worldHeight - 2, "Q: Quit", ConsoleColor.Yellow);
-            entry(col, worldHeight - 1, "Arrows: Move", ConsoleColor.Yellow);
+            entry(column, worldHeight - 4, "Commands", ConsoleColor.Yellow);
+            entry(column, worldHeight - 3, "--------------", ConsoleColor.Yellow);
+            entry(column, worldHeight - 2, "Q: Quit", ConsoleColor.Yellow);
+            entry(column, worldHeight - 1, "Arrows: Move", ConsoleColor.Yellow);
 
             entry(0, worldHeight + 1, "P: Player", ConsoleColor.Yellow);
             entry(1, worldHeight + 1, " ", ConsoleColor.Yellow);
