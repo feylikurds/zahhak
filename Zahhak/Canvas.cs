@@ -45,49 +45,59 @@ namespace Zahhak
             screen = new Cell[worldWidth + menuWidth, worldHeight + menuHeight];
         }
 
-        public void Draw(Room[,] rooms, Player player, ConcurrentQueue<Pixel> cq, int numTreasures)
+        public void Draw(Room[,] rooms, Player player, ConcurrentQueue<Pixel> statuses, int numTreasures)
         {
-            for (var y = 0; y < worldHeight; y++)
-                for (var x = 0; x < worldWidth; x++)
-                {
-                    screen[x, y] = new Cell(capacity);
-                    screen[x, y].Pixels = getPixels(rooms, x, y);
-                }
+            copy(rooms);
 
             var col = worldWidth + menuWidth - 1;
 
-            entry(screen, col, 0, "Health", player.Health, ConsoleColor.Yellow);
-            entry(screen, col, 1, "Strength", player.Strength, ConsoleColor.Yellow);
-            entry(screen, col, 2, "Treasure", numTreasures, ConsoleColor.Yellow);
-            entry(screen, col, 3, "--------------", ConsoleColor.Yellow);
+            entry(col, 0, "Health", player.Health, ConsoleColor.Yellow);
+            entry(col, 1, "Strength", player.Strength, ConsoleColor.Yellow);
+            entry(col, 2, "Treasure", numTreasures, ConsoleColor.Yellow);
+            entry(col, 3, "--------------", ConsoleColor.Yellow);
 
             var row = 4;
 
-            foreach (var pixel in cq.Reverse())
-                entry(screen, col, row++, pixel.Symbol, pixel.Color);
+            foreach (var status in statuses.Reverse())
+                entry(col, row++, status.Symbol, status.Color);
 
-            entry(screen, col, worldHeight - 4, "Commands", ConsoleColor.Yellow);
-            entry(screen, col, worldHeight - 3, "--------------", ConsoleColor.Yellow);
-            entry(screen, col, worldHeight - 2, "Q: Quit", ConsoleColor.Yellow);
-            entry(screen, col, worldHeight - 1, "Arrows: Move", ConsoleColor.Yellow);
+            entry(col, worldHeight - 4, "Commands", ConsoleColor.Yellow);
+            entry(col, worldHeight - 3, "--------------", ConsoleColor.Yellow);
+            entry(col, worldHeight - 2, "Q: Quit", ConsoleColor.Yellow);
+            entry(col, worldHeight - 1, "Arrows: Move", ConsoleColor.Yellow);
 
-            entry(screen, 0, worldHeight + 1, "P: Player", ConsoleColor.Yellow);
-            entry(screen, 1, worldHeight + 1, " ", ConsoleColor.Yellow);
-            entry(screen, 2, worldHeight + 1, "H: Health", ConsoleColor.Green);
-            entry(screen, 3, worldHeight + 1, "  ", ConsoleColor.Green);
-            entry(screen, 4, worldHeight + 1, "T: Treasure", ConsoleColor.Blue);
+            entry(0, worldHeight + 1, "P: Player", ConsoleColor.Yellow);
+            entry(1, worldHeight + 1, " ", ConsoleColor.Yellow);
+            entry(2, worldHeight + 1, "H: Health", ConsoleColor.Green);
+            entry(3, worldHeight + 1, "  ", ConsoleColor.Green);
+            entry(4, worldHeight + 1, "T: Treasure", ConsoleColor.Blue);
 
-            entry(screen, 0, worldHeight + 2, "M: Monster", ConsoleColor.Red);
-            entry(screen, 1, worldHeight + 2, "", ConsoleColor.Red);
-            entry(screen, 2, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
-            entry(screen, 3, worldHeight + 2, "", ConsoleColor.Cyan);
-            entry(screen, 4, worldHeight + 2, "Type 'Zahhak help' for more options.", ConsoleColor.White);
+            entry(0, worldHeight + 2, "M: Monster", ConsoleColor.Red);
+            entry(1, worldHeight + 2, "", ConsoleColor.Red);
+            entry(2, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
+            entry(3, worldHeight + 2, "", ConsoleColor.Cyan);
+            entry(4, worldHeight + 2, "Type 'Zahhak help' for more options.", ConsoleColor.White);
 
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
             Console.ResetColor();
 
+            paint();
+        }
+
+        private void copy(Room[,] rooms)
+        {
+            for (var y = 0; y < worldHeight; y++)
+                for (var x = 0; x < worldWidth; x++)
+                {
+                    screen[x, y] = new Cell(capacity);
+                    screen[x, y].Pixels = getPixels(rooms[x, y]);
+                }
+        }
+
+        private void paint()
+        {
             for (var y = 0; y < worldHeight + menuHeight; y++)
             {
                 for (var x = 0; x < worldWidth + menuWidth; x++)
@@ -97,50 +107,49 @@ namespace Zahhak
                     if (pixels == null)
                         continue;
 
-                    for (var i = 0; i < pixels.Length; i++)
+                    foreach (var pixel in pixels)
                     {
-                        Console.ForegroundColor = pixels[i].Color;
-                        Console.Write(pixels[i].Symbol);
+                        Console.ForegroundColor = pixel.Color;
+                        Console.Write(pixel.Symbol);
                         Console.ResetColor();
                     }
                 }
 
                 Console.Write(Environment.NewLine);
             }
-
         }
 
-        private Pixel[] getPixels(Room[,] rooms, int x, int y)
+        private Pixel[] getPixels(Room room)
         {
-            var gos = rooms[x, y].GetGameObjects();
-            var numGos = gos.Count;
+            var gameObjects = room.GetGameObjects();
+            var numGgameObjects = gameObjects.Count;
             var cell = new List<Pixel>(capacity);
 
-            if (gos.Count == 0)
+            if (gameObjects.Count == 0)
             {
-                cell.Add(new Pixel());
+                cell.Add(new Pixel { Symbol = "." });
 
                 for (int i = 0; i < capacity - 1; i++)
-                    cell.Add(new Pixel { Symbol = " " });
+                    cell.Add(new Pixel());
             }
             else
             {
-                foreach (var go in gos)
+                foreach (var gameObject in gameObjects)
                 {
-                    var symbol = go.Symbol;
-                    var color = go.Color;
+                    var symbol = gameObject.Symbol;
+                    var color = gameObject.Color;
 
                     cell.Add(new Pixel { Symbol = symbol, Color = color });
                 }
 
-                for (int i = 0; i < capacity - numGos; i++)
-                    cell.Add(new Pixel { Symbol = " " });
+                for (int i = 0; i < capacity - numGgameObjects; i++)
+                    cell.Add(new Pixel());
             }
 
             return cell.ToArray();
         }
 
-        private void entry(Cell[,] screen, int x, int y, string name, int value, ConsoleColor color)
+        private void entry(int x, int y, string name, int value, ConsoleColor color)
         {
             screen[x, y] = new Cell(capacity);
 
@@ -149,7 +158,7 @@ namespace Zahhak
             screen[x, y].Pixels = status(text, color);
         }
 
-        private void entry(Cell[,] screen, int x, int y, string text, ConsoleColor color)
+        private void entry(int x, int y, string text, ConsoleColor color)
         {
             screen[x, y] = new Cell(capacity);
             screen[x, y].Pixels = status(text, color);
