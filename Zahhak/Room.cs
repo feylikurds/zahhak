@@ -53,21 +53,21 @@ namespace Zahhak
             return false;
         }
 
-        public bool Enter(GameObject go)
+        public bool Enter(GameObject gameObject)
         {
             var numGameObjects = gameObjects.Count;
 
             if (numGameObjects >= capacity)
                 return false;
 
-            gameObjects.Add(go);
+            gameObjects.Add(gameObject);
 
             return true;
         }
 
-        public void Leave(GameObject go)
+        public void Leave(GameObject gameObject)
         {
-            gameObjects.Remove(go);
+            gameObjects.Remove(gameObject);
         }
 
         public List<GameObject> GetGameObjects()
@@ -77,28 +77,28 @@ namespace Zahhak
 
         public IEnumerable<Health> GetHealths()
         {
-            var healths = gameObjects.Where(go => go is Health).Cast<Health>();
+            var healths = gameObjects.Where(gameObject => gameObject is Health).Cast<Health>();
 
             return healths;
         }
 
         public IEnumerable<Strength> GetStrengths()
         {
-            var strengths = gameObjects.Where(go => go is Strength).Cast<Strength>();
+            var strengths = gameObjects.Where(gameObject => gameObject is Strength).Cast<Strength>();
 
             return strengths;
         }
 
         public IEnumerable<Treasure> GetTreasures()
         {
-            var treasures = gameObjects.Where(go => go is Treasure).Cast<Treasure>();
+            var treasures = gameObjects.Where(gameObject => gameObject is Treasure).Cast<Treasure>();
 
             return treasures;
         }
 
         public IEnumerable<Creature> GetCreatures()
         {
-            var creatures = gameObjects.Where(go => go is Creature).Cast<Creature>();
+            var creatures = gameObjects.Where(gameObject => gameObject is Creature).Cast<Creature>();
 
             return creatures;
         }

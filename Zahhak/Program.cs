@@ -67,7 +67,7 @@ namespace Zahhak
             keyTimer.Enabled = true;
 
 			var gameTimer = Observable.Interval(TimeSpan.FromMilliseconds((int)options["gameTimerInterval"]));
-			var gameSub = gameTimer.Subscribe(tick => result = game.Play(key));
+			var gameSubscriber = gameTimer.Subscribe(tick => result = game.Play(key));
 
 			while (play && !quit && !won) 
 			{
@@ -81,7 +81,7 @@ namespace Zahhak
 			}
 
             keyTimer.Elapsed -= keyOnTimedEvent;
-			gameSub.Dispose();
+            gameSubscriber.Dispose();
 
             end();
         }

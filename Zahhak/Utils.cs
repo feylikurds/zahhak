@@ -39,10 +39,10 @@ namespace Zahhak
             }
         }
 
-        public static Tuple<int, int> MoveToPlayer(Monster m, Player p)
+        public static Tuple<int, int> MoveToPlayer(Monster monster, Player player)
         {
-            var deltaX = m.X - p.X;
-            var deltaY = m.Y - p.Y;
+            var deltaX = monster.X - player.X;
+            var deltaY = monster.Y - player.Y;
             var x = 0;
             var y = 0;
 
@@ -56,16 +56,16 @@ namespace Zahhak
             else if (deltaY > 0)
                 y = -1;
 
-            x += m.X;
-            y += m.Y;
+            x += monster.X;
+            y += monster.Y;
 
             return Tuple.Create(x, y);
         }
 
-        public static Tuple<int, int> MoveRandomly(Monster m)
+        public static Tuple<int, int> MoveRandomly(Monster monster)
         {
-            var x = m.X;
-            var y = m.Y;
+            var x = monster.X;
+            var y = monster.Y;
 
             if (flip())
             {

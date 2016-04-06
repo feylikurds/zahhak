@@ -56,7 +56,7 @@ namespace Zahhak
         private List<Strength> strengths;
         private List<Treasure> treasures;
         private Canvas canvas;
-        ConcurrentQueue<Pixel> cq;
+        ConcurrentQueue<Pixel> statuses;
 
         private static object syncLock = new object();
 
@@ -89,17 +89,17 @@ namespace Zahhak
 
         private void announce(string text, ConsoleColor color = ConsoleColor.White)
         {
-            cq.Enqueue(new Pixel { Symbol = text.PadRight(STATUS_LEN, ' '), Color = color });
+            statuses.Enqueue(new Pixel { Symbol = text.PadRight(STATUS_LEN, ' '), Color = color });
             lock (this)
             {
                 Pixel overflow;
-                while (cq.Count > MAX_MESSAGES && cq.TryDequeue(out overflow)) ;
+                while (statuses.Count > MAX_MESSAGES && statuses.TryDequeue(out overflow)) ;
             }
         }
 
         private void createWorld()
         {
-            cq = new ConcurrentQueue<Pixel>();
+            statuses = new ConcurrentQueue<Pixel>();
             announce("Creating world.");
 
             rooms = new Room[worldWidth, worldHeight];
@@ -184,7 +184,7 @@ namespace Zahhak
             }
         }
 
-        private void placeRandomly(GameObject go)
+        private void placeRandomly(GameObject gameObject)
         {
             bool exit = false;
             var x = 0;
@@ -198,15 +198,15 @@ namespace Zahhak
                 if (!rooms[x, y].HasRoomForTwo())
                     continue;
 
-                exit = rooms[x, y].Enter(go);
+                exit = rooms[x, y].Enter(gameObject);
             }
 
-            go.Move(x, y);
+            gameObject.Move(x, y);
         }
 
         private void displayWorld()
         {
-            canvas.Draw(rooms, player, cq, NUM_TREASURE - treasures.Count);
+            canvas.Draw(rooms, player, statuses, NUM_TREASURE - treasures.Count);
         }
 
         public Tuple<bool, bool> Play(ConsoleKey key)
@@ -287,20 +287,20 @@ namespace Zahhak
             }
         }
 
-        private bool moveCreature(GameObject go, int x, int y)
+        private bool moveCreature(GameObject gameObject, int x, int y)
         {
-            var currentX = go.X;
-            var currentY = go.Y;
+            var currentX = gameObject.X;
+            var currentY = gameObject.Y;
 
             if (x < 0 || y < 0 || x >= worldWidth || y >= worldHeight)
                 return false;
 
-            var entered = rooms[x, y].Enter(go);
+            var entered = rooms[x, y].Enter(gameObject);
 
             if (entered)
             {
-                rooms[currentX, currentY].Leave(go);
-                go.Move(x, y);
+                rooms[currentX, currentY].Leave(gameObject);
+                gameObject.Move(x, y);
             }
 
             return entered;
@@ -350,24 +350,24 @@ namespace Zahhak
         private void clearWorld()
         {
             leaveRooms(monsters);
-            monsters.RemoveAll(c => c.Remove);
+            monsters.RemoveAll(monster => monster.Remove);
 
             leaveRooms(healths);
-            healths.RemoveAll(c => c.Remove);
+            healths.RemoveAll(health => health.Remove);
 
             leaveRooms(strengths);
-            strengths.RemoveAll(c => c.Remove);
+            strengths.RemoveAll(strength => strength.Remove);
 
             leaveRooms(treasures);
-            treasures.RemoveAll(c => c.Remove);
+            treasures.RemoveAll(treasure => treasure.Remove);
         }
 
-        private void leaveRooms(IEnumerable<GameObject> lc)
+        private void leaveRooms(IEnumerable<GameObject> collectionGameObjects)
         {
-            var lr = lc.Where(c => c.Remove);
+            var deletedGameObjects = collectionGameObjects.Where(gameObject => gameObject.Remove);
 
-            foreach (var c in lr)
-                rooms[c.X, c.Y].Leave(c);
+            foreach (var gameObject in deletedGameObjects)
+                rooms[gameObject.X, gameObject.Y].Leave(gameObject);
         }
     }
 }
