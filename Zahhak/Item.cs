@@ -26,7 +26,7 @@ namespace Zahhak
 {
     internal abstract class Item : GameObject
     {
-        const int POINTS = 10;
+        private const int POINTS = 10;
 
         public readonly int Points;
 

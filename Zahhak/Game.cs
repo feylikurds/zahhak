@@ -56,7 +56,7 @@ namespace Zahhak
         private List<Strength> strengths;
         private List<Treasure> treasures;
         private Canvas canvas;
-        ConcurrentQueue<Pixel> statuses;
+        private ConcurrentQueue<Pixel> statuses;
 
         private static object syncLock = new object();
 
