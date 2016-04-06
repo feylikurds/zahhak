@@ -123,7 +123,7 @@ namespace Zahhak
         private Pixel[] getPixels(Room room)
         {
             var gameObjects = room.GetGameObjects();
-            var numGgameObjects = gameObjects.Count;
+            var numGameObjects = gameObjects.Count;
             var cell = new List<Pixel>(capacity);
 
             if (gameObjects.Count == 0)
@@ -143,7 +143,7 @@ namespace Zahhak
                     cell.Add(new Pixel { Symbol = symbol, Color = color });
                 }
 
-                for (int i = 0; i < capacity - numGgameObjects; i++)
+                for (int i = 0; i < capacity - numGameObjects; i++)
                     cell.Add(new Pixel());
             }
 
