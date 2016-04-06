@@ -209,7 +209,7 @@ namespace Zahhak
             canvas.Draw(rooms, player, cq, NUM_TREASURE - treasures.Count);
         }
 
-        public Tuple<bool, bool> Play(ConsoleKeyInfo key)
+        public Tuple<bool, bool> Play(ConsoleKey key)
         {
             lock (syncLock)
             {
@@ -232,7 +232,7 @@ namespace Zahhak
             return Tuple.Create(true, false); 
         }
 
-        private void movePlayer(ConsoleKeyInfo key)
+        private void movePlayer(ConsoleKey key)
         {
             var next = Utils.GetMove(key);
 

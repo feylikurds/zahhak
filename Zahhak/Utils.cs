@@ -95,12 +95,12 @@ namespace Zahhak
             return false;
         }
 
-        public static Tuple<int, int> GetMove(ConsoleKeyInfo key)
+        public static Tuple<int, int> GetMove(ConsoleKey key)
         {
             var x = 0;
             var y = 0;
 
-            switch (key.Key)
+            switch (key)
             {
                 case ConsoleKey.UpArrow:
                     y = -1;

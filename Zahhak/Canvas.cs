@@ -81,7 +81,7 @@ namespace Zahhak
             entry(screen, 1, worldHeight + 2, "", ConsoleColor.Red);
             entry(screen, 2, worldHeight + 2, "S: Strength", ConsoleColor.Cyan);
             entry(screen, 3, worldHeight + 2, "", ConsoleColor.Cyan);
-            entry(screen, 4, worldHeight + 2, "Type 'zahhak help' for more options.", ConsoleColor.White);
+            entry(screen, 4, worldHeight + 2, "Type 'Zahhak help' for more options.", ConsoleColor.White);
 
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;

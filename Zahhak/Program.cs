@@ -24,20 +24,22 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Timers;
 using System.Collections.Specialized;
+using System.Reactive.Linq;
+using System.Diagnostics;
 
 namespace Zahhak
 {
     class Program
     {
         static private int keyTimerInterval = 100;
-        static private int gameTimerInterval = 100;
+        static private int gameTimerInterval = 200;
         static private int threadSleep = 100;
 
         static private OrderedDictionary options = new OrderedDictionary();
 
         static private Game game;
         static private Tuple<bool, bool> result;
-        static private ConsoleKeyInfo key;
+        static private ConsoleKey key;
 
         static private bool play = true;
         static private bool quit = false;
@@ -59,21 +61,27 @@ namespace Zahhak
             
             game.Start();
 
-            System.Timers.Timer keyTimer = new System.Timers.Timer();
+            var keyTimer = new System.Timers.Timer();
             keyTimer.Elapsed += new ElapsedEventHandler(keyOnTimedEvent);
             keyTimer.Interval = (int)options["keyTimerInterval"];
             keyTimer.Enabled = true;
 
-            System.Timers.Timer gameTimer = new System.Timers.Timer();
-            gameTimer.Elapsed += new ElapsedEventHandler(playOnTimedEvent);
-            gameTimer.Interval = (int)options["gameTimerInterval"];
-            gameTimer.Enabled = true;
+			var gameTimer = Observable.Interval(TimeSpan.FromMilliseconds((int)options["gameTimerInterval"]));
+			var gameSub = gameTimer.Subscribe(tick => result = game.Play(key));
 
-            while (play && !quit && !won)
-                Thread.Sleep((int)options["threadSleep"]);
+			while (play && !quit && !won) 
+			{
+				Thread.Sleep ((int)options ["threadSleep"]);
+
+				if (result == null)
+					continue;
+
+				play = result.Item1;
+				won = result.Item2;
+			}
 
             keyTimer.Elapsed -= keyOnTimedEvent;
-            gameTimer.Elapsed -= playOnTimedEvent;
+			gameSub.Dispose();
 
             end();
         }
@@ -119,7 +127,7 @@ namespace Zahhak
             Console.WriteLine(Environment.NewLine + "Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
 
             Console.WriteLine(@"
-zahhak [difficulty] [worldWidth] [worldHeight] [numMonsters] [numHealth] [numStrength] [numTreasure] [capacity] [keyTimer] [gameTimer] [threadSleep]
+Zahhak [difficulty] [worldWidth] [worldHeight] [numMonsters] [numHealth] [numStrength] [numTreasure] [capacity] [keyTimer] [gameTimer] [threadSleep]
 
  difficulty = (default 30)  The level of difficulty from 1 to 100.
  worldWidth = (default 20)  How wide to make the world.
@@ -130,26 +138,22 @@ numStrength = (default 10)  How many strengths to make.
 numTreasure = (default 10)  How many treasures to make.
    capacity = (default 2)   How many objects can a room contain.
    keyTimer = (default 100) The interval in milliseconds to capture a key.
-  gameTimer = (default 100) The interval in milliseconds to play the game.
+  gameTimer = (default 200) The interval in milliseconds to play the game.
 threadSleep = (default 100) The interval in milliseconds to check the program's status.
 
-type 'zahhak help' to come back to this screen.
+type 'Zahhak help' to come back to this screen.
 ");
         }
 
         private static void keyOnTimedEvent(object source, ElapsedEventArgs e)
         {
-            key = Console.ReadKey(true);
+			if (!Console.KeyAvailable)
+				return;
+			
+			key = Console.ReadKey(true).Key;
 
-            if (key.Key == ConsoleKey.Q)
+            if (key == ConsoleKey.Q)
                 quit = true;
-        }
-
-        private static void playOnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            result = game.Play(key);
-            play = result.Item1;
-            won = result.Item2;
         }
 
         private static void end()
