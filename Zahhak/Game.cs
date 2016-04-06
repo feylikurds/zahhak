@@ -316,12 +316,12 @@ namespace Zahhak
                 {
                     var opponents = fighters.Where(f => f != fighter);
 
-                    foreach (var o in opponents)
+					foreach (var opponent in opponents)
                     {
-                        fighter.Fight(o);
+						fighter.Fight(opponent);
 
                         var fighterName = fighter.GetType().Name;
-                        var opponentName = o.GetType().Name;
+						var opponentName = opponent.GetType().Name;
                         var message = fighterName + " attacked " + opponentName + "!";
                         var color = ConsoleColor.DarkRed;
 
@@ -330,14 +330,14 @@ namespace Zahhak
                             fighter.Strength -= STRENGTH_LOST;
                             color = ConsoleColor.Yellow;
                         } 
-                        else if (o == player)
+						else if (opponent == player)
                             color = ConsoleColor.Red;
 
                         announce(message, color);
 
-                        if (o.Health < 0)
+						if (opponent.Health < 0)
                         {
-                            o.Delete();
+							opponent.Delete();
                             message = opponentName + " was killed!";
                             color = ConsoleColor.Magenta;
                             announce(message, color);
