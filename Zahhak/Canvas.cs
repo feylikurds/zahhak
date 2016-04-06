@@ -31,8 +31,9 @@ namespace Zahhak
         private readonly int worldWidth;
         private readonly int menuWidth;
         private readonly int menuHeight;
-        private Cell[,] screen;
         private readonly int capacity;
+
+        private Cell[,] screen;
 
         public Canvas(int worldWidth, int worldHeight, int menuWidth, int menuHeight, int capacity)
         {
