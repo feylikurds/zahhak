@@ -26,6 +26,8 @@ namespace Zahhak
 {
     internal class Cell
     {
+        private const int POINTS = 10;
+
         public Pixel[] Pixels;
         
         public Cell(int capacity)

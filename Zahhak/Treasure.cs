@@ -26,11 +26,11 @@ namespace Zahhak
 {
     internal class Treasure : Item
     {
-        const int POINTS = 1;
+        protected const int POINTS = 1;
 
-        protected const string NAME = "Treasure";
-        protected const string SYMBOL = "T";
-        protected const ConsoleColor COLOR = ConsoleColor.Blue;
+        private const string NAME = "Treasure";
+        private const string SYMBOL = "T";
+        private const ConsoleColor COLOR = ConsoleColor.Blue;
 
         public Treasure(string name = NAME, string symbol = SYMBOL, ConsoleColor color = COLOR, int points = POINTS) : base(name, symbol, color, points) { }
     }
