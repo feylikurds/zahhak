@@ -292,8 +292,15 @@ namespace Zahhak
             var currentX = gameObject.X;
             var currentY = gameObject.Y;
 
-            if (x < 0 || y < 0 || x >= worldWidth || y >= worldHeight)
-                return false;
+            if (x < 0)
+                x = worldWidth - 1;
+            else if (x >= worldWidth)
+                x = 0;
+
+            if (y < 0)
+                y = worldHeight - 1;
+            else if (y >= worldHeight)
+                y = 0;
 
             var entered = rooms[x, y].Enter(gameObject);
 
