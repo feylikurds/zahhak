@@ -41,6 +41,7 @@ namespace Zahhak
         public const int MAX_MESSAGES = 11;
         public const int STATUS_LEN = 30;
         public const int STRENGTH_LOST = 1;
+
         private readonly int difficulty;
         private readonly int worldWidth;
         private readonly int worldHeight;
@@ -49,6 +50,7 @@ namespace Zahhak
         private readonly int numStrength;
         private readonly int numTreasure;
         private readonly int capacity;
+
         private Room[,] rooms;
         private Player player;
         private List<Monster> monsters;
