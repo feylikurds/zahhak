@@ -1,6 +1,6 @@
 ﻿/*
 Zahhak, a C# 6.0 coding example in form of a console game.
-Copyright (C) 2016 Aryo Pehlewan feylikurds@gmail.com
+Copyright (C) 2016 Aryo Pehlewan aryopehlewan@hotmail.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -81,7 +81,7 @@ namespace Zahhak
 
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine("Zahhak by Aryo Pehlewan aryopehlewan@hotmail.com Copyright 2016 License GPLv3");
             Console.ResetColor();
 
             paint();
