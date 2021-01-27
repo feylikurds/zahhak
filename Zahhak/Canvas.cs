@@ -81,7 +81,7 @@ namespace Zahhak
 
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Zahhak by Aryo Pehlewan aryopehlewan@hotmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine("By Aryo Pehlewan aryopehlewan@hotmail.com Copyright 2021 License GPLv3");
             Console.ResetColor();
 
             paint();

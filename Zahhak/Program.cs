@@ -163,7 +163,7 @@ type 'Zahhak help' to come back to this screen.
 
             Console.WriteLine(Environment.NewLine);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(Environment.NewLine + "Zahhak by Aryo Pehlewan feylikurds@gmail.com Copyright 2016 License GPLv3");
+            Console.WriteLine(Environment.NewLine + "By Aryo Pehlewan aryopehlewan@hotmail.com Copyright 2021 License GPLv3");
             Console.WriteLine();
 
             if (won)

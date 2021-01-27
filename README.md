@@ -18,7 +18,7 @@ I do hope that teachers use the code as a learning exercise for students.
 This was written in C# 6.0 with Visual Studio 2015. One must also  **install Rx-Main using NuGet**, in order to compile the program.
 
 ## License
-Copyright (c) 2016 Aryo Pehlewan aryopehlewan@hotmail.com 
+Copyright (c) 2021 Aryo Pehlewan aryopehlewan@hotmail.com 
 Licensed under the GPL license.
 
 
